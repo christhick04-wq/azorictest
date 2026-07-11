@@ -1502,6 +1502,25 @@
     height: 30px;
   }
 }
+
+/* ===== AZORIC BIO CART LINK ===== */
+
+.storefront-nav .cart-nav-link {
+  padding: 10px 16px;
+  color: #ffffff;
+  background: var(--accent-dark);
+  border-radius: 4px;
+}
+
+.storefront-nav .cart-nav-link:hover {
+  color: #ffffff;
+  background: var(--text);
+}
+
+.package-add-btn.added {
+  color: #ffffff;
+  background: var(--accent-dark);
+}
   
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1521,12 +1540,13 @@
   </a>
 
   <nav class="storefront-nav" aria-label="Main navigation">
-    <a class="active" href="order.html">Shop</a>
-    <a href="#custom-order">Custom Order</a>
-    <a href="#about">About Us</a>
-    <a href="#quality">Quality</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <a href="index.html">Home</a>
+  <a class="active" href="order.html">Shop</a>
+
+  <a class="cart-nav-link" href="cart.html">
+    Cart (<span id="cartCount">0</span>)
+  </a>
+</nav>
 
   <div class="header-actions" aria-label="Store actions">
     <button type="button" class="header-icon" aria-label="Customer account">
@@ -2109,19 +2129,38 @@ function openIndividualProducts() {
 
   async function loadInventory() {
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/inventory?order=id`, {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/inventory?order=id`, 
+        {
         headers: {
           'apikey': SUPABASE_KEY,
           'Authorization': `Bearer ${SUPABASE_KEY}`
         }
       });
+      
       const data = await res.json();
-      products = Array.isArray(data) && data.length > 0 ? data : defaultProducts;
-    } catch(e) {
+      
+      products = 
+        Array.isArray(data) && data.length > 0 
+        ? data 
+        : defaultProducts;
+    } catch(error) {
       products = defaultProducts;
     }
-    quantities = new Array(products.length).fill(0);
+    
+    const savedCart = getAzoricCart();
+
+quantities = products.map(product => {
+  const savedItem = savedCart.find(
+    item => item.cartId === `product-${product.id}`
+  );
+
+  return savedItem 
+    ? Number(savedItem.quantity) 
+    : 0;
+});
     buildTable();
+    updateCartCount();
   }
 
 function normalizeProductName(product) {
@@ -2412,7 +2451,13 @@ function closeGoalPanel() {
       document.getElementById('discountRow').style.display = 'none';
     }
 
-    totalDollarEl.textContent = '$' + Math.max(0, totalDollars - discountAmt + shippingCost).toFixed(2);
+    totalDollarEl.textContent = '$' + Math.max(
+      0, 
+      totalDollars - discountAmt + shippingCost
+    ).toFixed(2);
+    
+    saveProductSelectionsToCart();
+    updateCartCount();
   }
 
   function clearAll() {
@@ -2795,6 +2840,160 @@ function closeGoalPanel() {
     sendEmail();
   });
 
+/* ===== AZORIC BIO SHOPPING CART ===== */
+
+const AZORIC_CART_KEY = "azoricBioCart";
+
+const packageCatalog = {
+  essential: {
+    cartId: "package-essential",
+    category: "package",
+    name: "Essential Weight Loss Package",
+    dose: "",
+    price: 70,
+    stock: 99,
+    details:
+      "Tirzepatide 10mg, 30mL Bacteriostatic Water, 10 Insulin Syringes, and 20 Alcohol Swabs"
+  },
+
+  advanced: {
+    cartId: "package-advanced",
+    category: "package",
+    name: "Advanced Weight Loss Package",
+    dose: "",
+    price: 95,
+    stock: 99,
+    details:
+      "Tirzepatide 20mg, 30mL Bacteriostatic Water, 10 Insulin Syringes, and 20 Alcohol Swabs"
+  },
+
+  premium: {
+    cartId: "package-premium",
+    category: "package",
+    name: "Premium Weight Loss Package",
+    dose: "",
+    price: 110,
+    stock: 99,
+    details:
+      "Retatrutide 10mg, 30mL Bacteriostatic Water, 10 Insulin Syringes, and 20 Alcohol Swabs"
+  }
+};
+
+function getAzoricCart() {
+  try {
+    const savedCart = JSON.parse(
+      localStorage.getItem(AZORIC_CART_KEY)
+    );
+
+    return Array.isArray(savedCart) ? savedCart : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveAzoricCart(cart) {
+  localStorage.setItem(
+    AZORIC_CART_KEY,
+    JSON.stringify(cart)
+  );
+}
+
+function updateCartCount() {
+  const cartCount = document.getElementById("cartCount");
+
+  if (!cartCount) return;
+
+  const cart = getAzoricCart();
+
+  const totalQuantity = cart.reduce((total, item) => {
+    return total + Number(item.quantity || 0);
+  }, 0);
+
+  cartCount.textContent = totalQuantity;
+}
+
+function addPackageToCart(packageType, button) {
+  const selectedPackage = packageCatalog[packageType];
+
+  if (!selectedPackage) return;
+
+  const cart = getAzoricCart();
+
+  const existingItem = cart.find(
+    item => item.cartId === selectedPackage.cartId
+  );
+
+  if (existingItem) {
+    existingItem.quantity =
+      Number(existingItem.quantity || 0) + 1;
+  } else {
+    cart.push({
+      ...selectedPackage,
+      quantity: 1
+    });
+  }
+
+  saveAzoricCart(cart);
+  updateCartCount();
+
+  const originalText = button.textContent;
+
+  button.textContent = "Added to Cart";
+  button.classList.add("added");
+
+  window.setTimeout(() => {
+    button.textContent = originalText;
+    button.classList.remove("added");
+  }, 1200);
+}
+
+function saveProductSelectionsToCart() {
+  const currentCart = getAzoricCart();
+
+  /*
+    Preserve packages while replacing the saved individual-product
+    selections with the quantities currently shown on the shop page.
+  */
+  const updatedCart = currentCart.filter(
+    item => item.category !== "product"
+  );
+
+  products.forEach((product, index) => {
+    const quantity = Number(quantities[index] || 0);
+
+    if (quantity > 0) {
+      updatedCart.push({
+        cartId: `product-${product.id}`,
+        category: "product",
+        productId: product.id,
+        name: product.name,
+        dose: product.dose || "",
+        price: Number(product.price),
+        stock: Number(product.stock) || 99,
+        quantity: quantity,
+        details: product.dose
+          ? `${product.name} ${product.dose}`
+          : product.name
+      });
+    }
+  });
+
+  saveAzoricCart(updatedCart);
+}
+
+document
+  .querySelectorAll(".package-add-btn[data-package]")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+      addPackageToCart(
+        button.dataset.package,
+        button
+      );
+    });
+  });
+
+updateCartCount();
+  
   loadInventory();
 </script>
 </body>
