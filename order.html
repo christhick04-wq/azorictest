@@ -1050,64 +1050,6 @@
     .peptide-table th:nth-child(2), .peptide-table td:nth-child(2) { display: table-cell; }
   }
 
-  /* Responsive storefront layout */
-@media (max-width: 900px) {
-  .shopping-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .shopping-nav-item:nth-child(2) {
-    border-right: 0;
-  }
-
-  .shopping-nav-item:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-@media (max-width: 760px) {
-  body {
-    padding: 18px 14px 50px;
-  }
-
-  .page {
-    max-width: 100%;
-  }
-
-  .package-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .package-card {
-    min-height: 0;
-  }
-}
-
-@media (max-width: 520px) {
-  .shopping-nav {
-    grid-template-columns: 1fr;
-  }
-
-  .shopping-nav-item,
-  .shopping-nav-item:nth-child(2) {
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .shopping-nav-item:last-child {
-    border-bottom: 0;
-  }
-
-  .logo-block h1 {
-    font-size: 32px;
-  }
-
-  .order-tag {
-    width: 100%;
-    text-align: center;
-  }
-}
-
 /* Shopping category navigation */
 .shopping-nav {
   display: grid;
@@ -1176,6 +1118,187 @@
   color: var(--accent);
   font-size: 24px;
 }
+
+ /* Responsive storefront layout */
+@media (max-width: 900px) {
+  .shopping-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shopping-nav-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .shopping-nav-item:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    padding: 18px 14px 50px;
+  }
+
+  .page {
+    max-width: 100%;
+  }
+
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .package-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .shopping-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .shopping-nav-item,
+  .shopping-nav-item:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .shopping-nav-item:last-child {
+    border-bottom: 0;
+  }
+
+  .logo-block h1 {
+    font-size: 32px;
+  }
+
+  .order-tag {
+    width: 100%;
+    text-align: center;
+  }
+}
+  
+/* Shop by Goal panel */
+.goal-panel {
+  margin: 16px 0;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(57, 68, 57, 0.07);
+}
+
+.goal-panel[hidden] {
+  display: none;
+}
+
+.goal-panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.goal-panel-heading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.goal-panel-heading strong {
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.goal-panel-heading small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.goal-panel-close {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--accent-dark);
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.goal-panel-close:hover {
+  background: var(--accent2);
+}
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.goal-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  min-height: 135px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  background: #fffefb;
+  text-align: left;
+  font-family: var(--mono);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.goal-grid button:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  background: var(--accent2);
+}
+
+.goal-grid button > span {
+  font-size: 23px;
+}
+
+.goal-grid button strong {
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.goal-grid button small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .goal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .goal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-grid button {
+    min-height: 0;
+  }
+}
+
   
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1386,8 +1509,11 @@
     <span class="shopping-nav-icon">⚗</span>
 
     <span class="shopping-nav-copy">
-      <strong>Individual Products</strong>
-      <small>Browse all available products</small>
+      <strong id="productsSectionTitle">Individual Products</strong>
+      <small id="productsSectionDescription">
+        Browse all available peptides and essentials.
+      </small>
+      
     </span>
 
     <span class="shopping-nav-arrow">›</span>
@@ -1409,6 +1535,57 @@
   </button>
 
 </nav>
+
+<!-- SHOP BY GOAL OPTIONS -->
+<section class="goal-panel" id="goalPanel" hidden>
+  <div class="goal-panel-heading">
+    <div>
+      <strong>Shop by Goal</strong>
+      <small>Select what you would like to browse.</small>
+    </div>
+
+    <button
+      type="button"
+      class="goal-panel-close"
+      onclick="closeGoalPanel()"
+      aria-label="Close Shop by Goal"
+    >
+      ×
+    </button>
+  </div>
+
+  <div class="goal-grid">
+    <button type="button" onclick="showProductView('weight')">
+      <span>⚖️</span>
+      <strong>Weight Support</strong>
+      <small>Browse weight-support products</small>
+    </button>
+
+    <button type="button" onclick="showProductView('beauty')">
+      <span>✨</span>
+      <strong>Skin &amp; Beauty</strong>
+      <small>Browse beauty-focused products</small>
+    </button>
+
+    <button type="button" onclick="showProductView('recovery')">
+      <span>🌿</span>
+      <strong>Recovery Support</strong>
+      <small>Browse recovery-focused products</small>
+    </button>
+
+    <button type="button" onclick="showProductView('focus')">
+      <span>⚡</span>
+      <strong>Energy &amp; Focus</strong>
+      <small>Browse energy and focus products</small>
+    </button>
+
+    <button type="button" onclick="showProductView('wellness')">
+      <span>🎯</span>
+      <strong>Performance &amp; Wellness</strong>
+      <small>Browse performance-focused products</small>
+    </button>
+  </div>
+</section>
   
     <!-- INDIVIDUAL PRODUCTS -->
   <section class="individual-products-section">
@@ -1689,6 +1866,7 @@ function openIndividualProducts() {
 
   let products = [];
   let quantities = [];
+  let currentProductView = 'all';
 
   const defaultProducts = [
     { id: 1,  name: "Tirzepatide",              dose: "10mg",  stock: 40, low_at: 10, price: 45 },
@@ -1724,11 +1902,189 @@ function openIndividualProducts() {
     buildTable();
   }
 
+function normalizeProductName(product) {
+  return `${product.name || ''} ${product.dose || ''}`.toLowerCase();
+}
+
+function nameIncludesAny(product, searchTerms) {
+  const productName = normalizeProductName(product);
+
+  return searchTerms.some(term =>
+    productName.includes(term.toLowerCase())
+  );
+}
+
+function productMatchesView(product, view) {
+  const views = {
+    all: [],
+
+    'best-sellers': [
+      'retatrutide',
+      'tirzepatide',
+      'ghk-cu',
+      'ghk cu',
+      'bpc-157',
+      'bpc 157',
+      'cjc-1295',
+      'ipamorelin'
+    ],
+
+    essentials: [
+      'bac water',
+      'bacteriostatic water',
+      'syringe',
+      'alcohol swab',
+      'starter kit'
+    ],
+
+    weight: [
+      'retatrutide',
+      'tirzepatide',
+      'semaglutide'
+    ],
+
+    beauty: [
+      'ghk-cu',
+      'ghk cu',
+      'melanotan'
+    ],
+
+    recovery: [
+      'bpc-157',
+      'bpc 157',
+      'cjc-1295',
+      'ipamorelin',
+      'tesamorelin'
+    ],
+
+    focus: [
+      'nad+',
+      'nad ',
+      'mots-c',
+      'mots c',
+      'semax',
+      'selank'
+    ],
+
+    wellness: [
+      'cjc-1295',
+      'ipamorelin',
+      'tesamorelin',
+      'mots-c',
+      'mots c',
+      'nad+'
+    ]
+  };
+
+  if (view === 'all') return true;
+
+  return nameIncludesAny(product, views[view] || []);
+}
+
+function getProductViewText(view) {
+  const viewText = {
+    all: {
+      title: 'Individual Products',
+      description: 'Browse all available peptides and essentials.'
+    },
+
+    'best-sellers': {
+      title: 'Best Sellers',
+      description: 'Browse our most popular products.'
+    },
+
+    essentials: {
+      title: 'Essentials',
+      description: 'Browse BAC water, syringes, alcohol swabs, and starter supplies.'
+    },
+
+    weight: {
+      title: 'Weight Support',
+      description: 'Browse products commonly researched for weight-support goals.'
+    },
+
+    beauty: {
+      title: 'Skin & Beauty',
+      description: 'Browse products commonly researched for skin and beauty goals.'
+    },
+
+    recovery: {
+      title: 'Recovery Support',
+      description: 'Browse products commonly researched for recovery-focused goals.'
+    },
+
+    focus: {
+      title: 'Energy & Focus',
+      description: 'Browse products commonly researched for energy and focus.'
+    },
+
+    wellness: {
+      title: 'Performance & Wellness',
+      description: 'Browse products commonly researched for performance and wellness.'
+    }
+  };
+
+  return viewText[view] || viewText.all;
+}
+
+function showProductView(view) {
+  const toggle = document.getElementById('productsToggle');
+  const section = document.getElementById('productsCollapsible');
+  const title = document.getElementById('productsSectionTitle');
+  const description = document.getElementById(
+    'productsSectionDescription'
+  );
+
+  if (!toggle || !section) return;
+
+  currentProductView = view;
+
+  const viewText = getProductViewText(view);
+
+  if (title) title.textContent = viewText.title;
+  if (description) description.textContent = viewText.description;
+
+  buildTable();
+
+  if (!section.classList.contains('open')) {
+    toggleIndividualProducts();
+  }
+
+  closeGoalPanel();
+
+  toggle.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+
+function openGoalPanel() {
+  const panel = document.getElementById('goalPanel');
+
+  if (!panel) return;
+
+  panel.hidden = false;
+
+  panel.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+}
+
+function closeGoalPanel() {
+  const panel = document.getElementById('goalPanel');
+
+  if (panel) {
+    panel.hidden = true;
+  }
+}
+  
   function buildTable() {
     const tbody = document.getElementById('productRows');
     tbody.innerHTML = '';
     
     products.forEach((p, i) => {
+      if (!productMatchesView(p, currentProductView)) return;
       if (quantities[i] === undefined) quantities[i] = 0;
       
       const outOfStock = Number(p.stock) <= 0;
