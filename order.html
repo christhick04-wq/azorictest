@@ -217,9 +217,9 @@
     white-space: nowrap;
   }
 
-  .in-stock { background: rgba(106,155,126,0.12); color: var(--accent-dark); border: 1px solid rgba(106,155,126,0.25); }
-  .low-stock { background: rgba(200,130,30,0.1); color: #a06010; border: 1px solid rgba(200,130,30,0.25); }
-
+  .out-of-stock-row { opacity: 0.65 }
+  .out-of-stock-text { color: #8d8d8d; font-size: 12px; font-weight: 500; }
+  
   .qty-cell { text-align: center; }
 
   .qty-control {
@@ -632,7 +632,7 @@
     <thead>
       <tr>
         <th>Compound</th>
-        <th>Availability</th>
+        <th>Status</th>
         <th style="text-align:right">Price</th>
         <th style="text-align:center">Qty</th>
       </tr>
@@ -732,6 +732,16 @@
       <label>Email</label>
       <input type="email" id="email" placeholder="email@example.com">
     </div>
+<div class="field-wrap full">
+  <label>Who Referred You? (Optional)</label>
+  <input
+    type="text"
+    id="referredBy"
+    placeholder="Enter their first and last name">
+  <small style="color:var(--muted);font-size:11px;">
+    Help your friend earn 10% off their next order.
+  </small>
+</div>
   </div>
 
   <!-- PAYMENT METHOD -->
@@ -865,26 +875,58 @@
   function buildTable() {
     const tbody = document.getElementById('productRows');
     tbody.innerHTML = '';
+    
     products.forEach((p, i) => {
-      if (p.stock === 0) return; // hide out of stock
       if (quantities[i] === undefined) quantities[i] = 0;
-      const low = p.stock <= (p.low_at || 5);
+      
+      const outOfStock = Number(p.stock) <= 0;
       const tr = document.createElement('tr');
+      
+      if (outOfStock) {
+        tr.classList.add('out-of-stock-row');
+       }
+      
       tr.innerHTML = `
         <td>
           <div class="compound-name">${p.name}${p.dose ? ' <span style=\'color:var(--accent);font-size:12px;font-weight:400;\'>' + p.dose + '</span>' : ''}</div>
         </td>
-        <td style="color:var(--text); font-size:13px;">${p.stock}</td>
-        <td style="text-align:right; color:var(--accent-dark); font-size:13px;">$${p.price}.00</td>
-        <td class="qty-cell">
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
-            <input class="qty-display" type="number" min="0" max="${p.stock || 99}" value="0"
-              id="qty_${i}" onchange="setQty(${i}, this.value)">
-            <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
-          </div>
+        
+        <td>
+         ${
+          outOfStock
+            ? '<span class="out-of-stock-text">Out of Stock</span>'
+            : ''
+        }
+      </td>
+      
+        <td style="text-align:right; color:var(--accent-dark); font-size:13px;">$${Number(p.price).toFixed(2)}
         </td>
+        
+        <td class="qty-cell">
+          ${
+           outOfStock
+             ? '<span class="out-of-stock-text">—</span>'
+             : `
+               <div class="qty-control">
+                 <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
+                 
+                 <input
+                   class="qty-display"
+                   type="number"
+                   min="0"
+                   max="${p.stock}"
+                   value="0"
+                   id="qty_${i}"
+                   onchange="setQty(${i}, this.value)"
+                 >
+                 
+                 <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
+               </div>
+             `
+         }
+       </td>
       `;
+      
       tbody.appendChild(tr);
     });
   }
@@ -1137,6 +1179,7 @@
     const zip      = document.getElementById('zip').value.trim();
     const phone    = document.getElementById('phone').value.trim();
     const email    = document.getElementById('email').value.trim();
+    const referredBy = document.getElementById('referredBy').value.trim();
     const notes    = document.getElementById('notes').value.trim();
 
     let orderLines = '';
@@ -1209,7 +1252,7 @@
         payment_method: paymentLabels[selectedPayment] || selectedPayment,
         items: orderedItems,
         subtotal, discount_code: appliedDiscount ? appliedDiscount.code : null, discount_amount: discountAmt, shipping: shippingFee, total,
-        referred_by: appliedDiscount ? (appliedDiscount.description || null) : null,
+        referred_by: referredBy || null,
         notes
       })
     }).catch(e => console.error('Order save failed:', e));
@@ -1235,6 +1278,7 @@
         customer_email: email,
         email: email,
         phone: phone,
+        referred_by: referredBy || 'None',
         address: addrLine,
         city, state, zip,
         fulfillment: fulfillmentType === 'ship' ? 'Shipping' : 'Pick Up',
