@@ -1107,6 +1107,75 @@
     text-align: center;
   }
 }
+
+/* Shopping category navigation */
+.shopping-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 20px 0 16px;
+  overflow: hidden;
+  background: rgba(255, 254, 251, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  box-shadow: 0 5px 18px rgba(57, 68, 57, 0.06);
+}
+
+.shopping-nav-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 19px 18px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--mono);
+  transition: background 0.15s ease;
+}
+
+.shopping-nav-item:last-child {
+  border-right: 0;
+}
+
+.shopping-nav-item:hover {
+  background: var(--accent2);
+}
+
+.shopping-nav-icon {
+  font-size: 25px;
+  line-height: 1;
+}
+
+.shopping-nav-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.shopping-nav-copy strong {
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.shopping-nav-copy small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.shopping-nav-arrow {
+  color: var(--accent);
+  font-size: 24px;
+}
   
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1340,75 +1409,6 @@
   </button>
 
 </nav>
-
-/* Shopping category navigation */
-.shopping-nav {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 20px 0 16px;
-  overflow: hidden;
-  background: rgba(255, 254, 251, 0.95);
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  box-shadow: 0 5px 18px rgba(57, 68, 57, 0.06);
-}
-
-.shopping-nav-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  padding: 19px 18px;
-  color: var(--text);
-  background: transparent;
-  border: 0;
-  border-right: 1px solid var(--border);
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--mono);
-  transition: background 0.15s ease;
-}
-
-.shopping-nav-item:last-child {
-  border-right: 0;
-}
-
-.shopping-nav-item:hover {
-  background: var(--accent2);
-}
-
-.shopping-nav-icon {
-  font-size: 25px;
-  line-height: 1;
-}
-
-.shopping-nav-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.shopping-nav-copy strong {
-  color: var(--accent-dark);
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.shopping-nav-copy small {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.4;
-}
-
-.shopping-nav-arrow {
-  color: var(--accent);
-  font-size: 24px;
-}
   
     <!-- INDIVIDUAL PRODUCTS -->
   <section class="individual-products-section">
@@ -1650,7 +1650,7 @@
 
 <script>
     function toggleIndividualProducts() {
-    cconst toggle = document.getElementById('productsToggle');
+    const toggle = document.getElementById('productsToggle');
     const section = document.getElementById('productsCollapsible');
 
     if (!toggle || !section) return;
