@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Your Cart — Azoric Bio</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --ivory: #f7f5ed;
+      --surface: #fffef9;
+      --green: #304a38;
+      --sage: #87977d;
+      --sage-light: #e9ede4;
+      --gold: #b59b62;
+      --text: #26352b;
+      --muted: #6e756d;
+      --border: rgba(48, 74, 56, 0.18);
+      --danger: #a34a3f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(
+          circle at 8% 8%,
+          rgba(135, 151, 125, 0.13),
+          transparent 25%
+        ),
+        var(--ivory);
+      font-family: "DM Sans", Arial, sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .site-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 35px;
+      min-height: 76px;
+      padding: 12px max(24px, calc((100% - 1180px) / 2));
+      background: rgba(247, 245, 237, 0.95);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      text-decoration: none;
+    }
+
+    .brand-name {
+      display: block;
+      color: var(--green);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 29px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 30px;
+    }
+
+    .main-nav a {
+      color: #536057;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--green);
+    }
+
+    .cart-link {
+      padding: 10px 16px;
+      color: white !important;
+      background: var(--green);
+      border-radius: 3px;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 65px 0 90px;
+    }
+
+    .page-heading {
+      margin-bottom: 38px;
+    }
+
+    .eyebrow {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .page-heading h1 {
+      color: var(--green);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(45px, 6vw, 68px);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .page-heading p {
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 350px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .cart-panel,
+    .summary-panel {
+      background: rgba(255, 254, 249, 0.86);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      box-shadow: 0 10px 30px rgba(48, 74, 56, 0.05);
+    }
+
+    .panel-heading {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-heading h2 {
+      color: var(--green);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 27px;
+      font-weight: 600;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto auto;
+      gap: 20px;
+      align-items: center;
+      padding: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-item:last-child {
+      border-bottom: 0;
+    }
+
+    .item-name {
+      color: var(--green);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 21px;
+      font-weight: 600;
+    }
+
+    .item-details {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .item-price {
+      color: var(--green);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .quantity-control {
+      display: grid;
+      grid-template-columns: 31px 42px 31px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .quantity-control button {
+      min-height: 34px;
+      color: var(--green);
+      background: var(--sage-light);
+      border: 0;
+      cursor: pointer;
+    }
+
+    .quantity-control button:hover {
+      background: #dfe6da;
+    }
+
+    .quantity-control input {
+      width: 42px;
+      min-height: 34px;
+      color: var(--text);
+      background: var(--surface);
+      border: 0;
+      border-right: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      text-align: center;
+      appearance: textfield;
+    }
+
+    .remove-button {
+      color: var(--danger);
+      background: transparent;
+      border: 0;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .empty-cart {
+      padding: 65px 25px;
+      text-align: center;
+    }
+
+    .empty-cart h2 {
+      color: var(--green);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 31px;
+      font-weight: 600;
+    }
+
+    .empty-cart p {
+      margin: 10px 0 25px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .shop-link {
+      display: inline-block;
+      padding: 13px 22px;
+      color: white;
+      background: var(--green);
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .summary-content {
+      padding: 22px;
+    }
+
+    .discount-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .discount-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      margin-bottom: 9px;
+    }
+
+    .discount-form input {
+      min-width: 0;
+      padding: 11px 12px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-right: 0;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+    }
+
+    .discount-form input:focus {
+      border-color: var(--sage);
+    }
+
+    .discount-form button {
+      padding: 0 15px;
+      color: white;
+      background: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 0 4px 4px 0;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .discount-message {
+      min-height: 18px;
+      margin-bottom: 19px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .discount-message.success {
+      color: var(--green);
+    }
+
+    .discount-message.error {
+      color: var(--danger);
+    }
+
+    .summary-divider {
+      height: 1px;
+      margin: 15px 0;
+      background: var(--border);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .summary-row.total {
+      align-items: center;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .summary-row.total span:last-child {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 28px;
+    }
+
+    .checkout-button {
+      display: block;
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px 20px;
+      color: white;
+      background: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.7px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .checkout-button.disabled {
+      color: #8d948d;
+      background: #e6e7e1;
+      border-color: #d5d7d1;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .checkout-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .continue-shopping {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 27px 20px;
+      color: var(--muted);
+      background: #efeee7;
+      border-top: 1px solid var(--border);
+      font-size: 10px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-panel {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .site-header {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 15px 18px;
+      }
+
+      .main-nav {
+        justify-content: flex-start;
+      }
+
+      .page {
+        width: min(100% - 24px, 1180px);
+        padding-top: 40px;
+      }
+
+      .cart-item {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+      }
+
+      .item-price {
+        text-align: right;
+      }
+
+      .quantity-control {
+        grid-column: 1;
+      }
+
+      .remove-button {
+        grid-column: 2;
+        justify-self: end;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Azoric Bio</span>
+      <span class="brand-tagline">Peptides. Purpose. Potential.</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="order.html">Shop</a>
+      <a class="cart-link active" href="cart.html">
+        Cart (<span id="headerCartCount">0</span>)
+      </a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-heading">
+      <span class="eyebrow">Review Your Selections</span>
+      <h1>Your Cart</h1>
+      <p>
+        Review your products, adjust quantities, and apply a discount code
+        before continuing to checkout.
+      </p>
+    </div>
+
+    <div class="cart-layout">
+      <section class="cart-panel">
+        <div class="panel-heading">
+          <h2>Selected Products</h2>
+        </div>
+
+        <div id="cartItems"></div>
+      </section>
+
+      <aside class="summary-panel">
+        <div class="panel-heading">
+          <h2>Order Summary</h2>
+        </div>
+
+        <div class="summary-content">
+          <label class="discount-label" for="discountInput">
+            Discount Code
+          </label>
+
+          <div class="discount-form">
+            <input
+              id="discountInput"
+              type="text"
+              placeholder="Enter code"
+              autocomplete="off"
+            >
+
+            <button type="button" onclick="applyDiscount()">
+              Apply
+            </button>
+          </div>
+
+          <div
+            class="discount-message"
+            id="discountMessage"
+            aria-live="polite"
+          ></div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <span>Items</span>
+            <span id="itemCount">0</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">$0.00</span>
+          </div>
+
+          <div class="summary-row" id="discountRow" hidden>
+            <span id="discountLabel">Discount</span>
+            <span id="discountAmount">-$0.00</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row total">
+            <span>Estimated Total</span>
+            <span id="estimatedTotal">$0.00</span>
+          </div>
+
+          <a
+            id="checkoutButton"
+            class="checkout-button disabled"
+            href="checkout.html"
+            aria-disabled="true"
+          >
+            Proceed to Checkout
+          </a>
+
+          <p class="checkout-note">
+            Checkout will be connected in the next step.
+          </p>
+
+          <a class="continue-shopping" href="order.html">
+            ← Continue Shopping
+          </a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2026 Azoric Bio. All rights reserved.</div>
+    <div>
+      Products are offered for research purposes only and are not intended
+      for human consumption or medical use.
+    </div>
+  </footer>
+
+  <script>
+    const CART_KEY = "azoricBioCart";
+    const DISCOUNT_KEY = "azoricBioDiscount";
+
+    const SUPABASE_URL =
+      "https://topaetuajpdzauvhrefu.supabase.co";
+
+    const SUPABASE_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvcGFldHVhanBkemF1dmhyZWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNDg0ODAsImV4cCI6MjA5NDYyNDQ4MH0.K3Lag09MNyEVZaGaMu7iNst2OyzcTfc2PWPPwrGhb9w";
+
+    let cart = readSavedCart();
+    let appliedDiscount = readSavedDiscount();
+
+    function readSavedCart() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(CART_KEY));
+        return Array.isArray(saved) ? saved : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function readSavedDiscount() {
+      try {
+        return JSON.parse(localStorage.getItem(DISCOUNT_KEY)) || null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveCart() {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }
+
+    function saveDiscount() {
+      if (appliedDiscount) {
+        localStorage.setItem(
+          DISCOUNT_KEY,
+          JSON.stringify(appliedDiscount)
+        );
+      } else {
+        localStorage.removeItem(DISCOUNT_KEY);
+      }
+    }
+
+    function money(value) {
+      return "$" + Number(value || 0).toFixed(2);
+    }
+
+    function safeText(value) {
+      const element = document.createElement("div");
+      element.textContent = String(value || "");
+      return element.innerHTML;
+    }
+
+    function getSubtotal() {
+      return cart.reduce((total, item) => {
+        return total + Number(item.price) * Number(item.quantity);
+      }, 0);
+    }
+
+    function getDiscountAmount(subtotal) {
+      if (!appliedDiscount) return 0;
+
+      if (appliedDiscount.type === "percent") {
+        return subtotal * (Number(appliedDiscount.value) / 100);
+      }
+
+      return Math.min(Number(appliedDiscount.value), subtotal);
+    }
+
+    function renderCart() {
+      cart = cart.filter(item => Number(item.quantity) > 0);
+      saveCart();
+
+      const cartItems = document.getElementById("cartItems");
+      const headerCartCount =
+        document.getElementById("headerCartCount");
+      const itemCount = document.getElementById("itemCount");
+      const subtotalElement = document.getElementById("subtotal");
+      const estimatedTotal =
+        document.getElementById("estimatedTotal");
+      const discountRow = document.getElementById("discountRow");
+      const discountLabel =
+        document.getElementById("discountLabel");
+      const discountAmount =
+        document.getElementById("discountAmount");
+
+      const totalQuantity = cart.reduce((total, item) => {
+        return total + Number(item.quantity);
+      }, 0);
+
+      headerCartCount.textContent = totalQuantity;
+      itemCount.textContent = totalQuantity;
+
+      if (!cart.length) {
+        cartItems.innerHTML = `
+          <div class="empty-cart">
+            <h2>Your cart is currently empty</h2>
+            <p>Visit the shop to explore available products.</p>
+            <a class="shop-link" href="order.html">Shop Products</a>
+          </div>
+        `;
+      } else {
+        cartItems.innerHTML = cart.map((item, index) => {
+          const dose = item.dose ? " · " + safeText(item.dose) : "";
+          const details = item.details
+            ? safeText(item.details)
+            : "Research product" + dose;
+
+          return `
+            <article class="cart-item">
+              <div>
+                <div class="item-name">${safeText(item.name)}</div>
+                <div class="item-details">${details}</div>
+              </div>
+
+              <div class="item-price">
+                ${money(item.price)} each
+              </div>
+
+              <div class="quantity-control">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  onclick="changeQuantity(${index}, -1)"
+                >
+                  −
+                </button>
+
+                <input
+                  type="number"
+                  min="1"
+                  max="${Number(item.stock) || 99}"
+                  value="${Number(item.quantity)}"
+                  aria-label="Quantity for ${safeText(item.name)}"
+                  onchange="setQuantity(${index}, this.value)"
+                >
+
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  onclick="changeQuantity(${index}, 1)"
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                class="remove-button"
+                onclick="removeItem(${index})"
+              >
+                Remove
+              </button>
+            </article>
+          `;
+        }).join("");
+      }
+
+      const subtotal = getSubtotal();
+      const discount = getDiscountAmount(subtotal);
+      const total = Math.max(0, subtotal - discount);
+
+      subtotalElement.textContent = money(subtotal);
+      estimatedTotal.textContent = money(total);
+
+      if (appliedDiscount && discount > 0) {
+        discountRow.hidden = false;
+        discountLabel.textContent =
+          "Discount (" + appliedDiscount.code + ")";
+        discountAmount.textContent = "-" + money(discount);
+      } else {
+        discountRow.hidden = true;
+      }
+    }
+
+    function changeQuantity(index, change) {
+      const item = cart[index];
+      if (!item) return;
+
+      const maximum = Number(item.stock) || 99;
+
+      item.quantity = Math.max(
+        1,
+        Math.min(maximum, Number(item.quantity) + change)
+      );
+
+      saveCart();
+      renderCart();
+    }
+
+    function setQuantity(index, value) {
+      const item = cart[index];
+      if (!item) return;
+
+      const maximum = Number(item.stock) || 99;
+
+      item.quantity = Math.max(
+        1,
+        Math.min(maximum, parseInt(value, 10) || 1)
+      );
+
+      saveCart();
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+
+      if (!cart.length) {
+        appliedDiscount = null;
+        saveDiscount();
+      }
+
+      saveCart();
+      renderCart();
+    }
+
+    async function applyDiscount() {
+      const input = document.getElementById("discountInput");
+      const message =
+        document.getElementById("discountMessage");
+
+      const code = input.value.trim().toUpperCase();
+
+      input.value = code;
+      message.className = "discount-message";
+
+      if (!cart.length) {
+        message.textContent =
+          "Add products before applying a discount.";
+        message.classList.add("error");
+        return;
+      }
+
+      if (!code) {
+        message.textContent = "Please enter a discount code.";
+        message.classList.add("error");
+        return;
+      }
+
+      message.textContent = "Checking code...";
+
+      try {
+        const response = await fetch(
+          SUPABASE_URL +
+          "/rest/v1/discount_codes?code=eq." +
+          encodeURIComponent(code) +
+          "&active=eq.true",
+          {
+            headers: {
+              apikey: SUPABASE_KEY,
+              Authorization: "Bearer " + SUPABASE_KEY
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || !data.length) {
+          appliedDiscount = null;
+          saveDiscount();
+
+          message.textContent = "Invalid or expired code.";
+          message.classList.add("error");
+
+          renderCart();
+          return;
+        }
+
+        const discount = data[0];
+
+        if (
+          discount.max_uses &&
+          Number(discount.uses) >= Number(discount.max_uses)
+        ) {
+          appliedDiscount = null;
+          saveDiscount();
+
+          message.textContent =
+            "This code has reached its maximum uses.";
+          message.classList.add("error");
+
+          renderCart();
+          return;
+        }
+
+        appliedDiscount = discount;
+        saveDiscount();
+
+        const description =
+          discount.type === "percent"
+            ? discount.value + "% off"
+            : money(discount.value) + " off";
+
+        message.textContent =
+          "Code applied — " + description;
+
+        message.classList.add("success");
+        renderCart();
+      } catch (error) {
+        message.textContent =
+          "The code could not be checked. Please try again.";
+        message.classList.add("error");
+      }
+    }
+
+    if (appliedDiscount) {
+      document.getElementById("discountInput").value =
+        appliedDiscount.code || "";
+
+      const message =
+        document.getElementById("discountMessage");
+
+      message.textContent =
+        "Code " + appliedDiscount.code + " is applied.";
+
+      message.classList.add("success");
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
