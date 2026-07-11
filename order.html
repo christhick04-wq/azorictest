@@ -1474,7 +1474,7 @@
   <button
     type="button"
     class="shopping-nav-item"
-    onclick="openIndividualProducts()"
+    onclick="showProductView('best-sellers')"
   >
     <span class="shopping-nav-icon">🔥</span>
 
@@ -1489,13 +1489,13 @@
   <button
     type="button"
     class="shopping-nav-item"
-    onclick="document.querySelector('.featured-packages').scrollIntoView({ behavior: 'smooth' })"
+    onclick="openGoalPanel()"
   >
     <span class="shopping-nav-icon">🎯</span>
 
     <span class="shopping-nav-copy">
       <strong>Shop by Goal</strong>
-      <small>Find the right peptides for you</small>
+      <small>Find the right products for you</small>
     </span>
 
     <span class="shopping-nav-arrow">›</span>
@@ -1504,16 +1504,13 @@
   <button
     type="button"
     class="shopping-nav-item"
-    onclick="openIndividualProducts()"
+    onclick="showProductView('all')"
   >
     <span class="shopping-nav-icon">⚗</span>
 
     <span class="shopping-nav-copy">
-      <strong id="productsSectionTitle">Individual Products</strong>
-      <small id="productsSectionDescription">
-        Browse all available peptides and essentials.
-      </small>
-      
+      <strong>Individual Products</strong>
+      <small>Browse all available products</small>
     </span>
 
     <span class="shopping-nav-arrow">›</span>
@@ -1522,7 +1519,7 @@
   <button
     type="button"
     class="shopping-nav-item"
-    onclick="openIndividualProducts()"
+    onclick="showProductView('essentials')"
   >
     <span class="shopping-nav-icon">▰</span>
 
@@ -2085,6 +2082,7 @@ function closeGoalPanel() {
     
     products.forEach((p, i) => {
       if (!productMatchesView(p, currentProductView)) return;
+      
       if (quantities[i] === undefined) quantities[i] = 0;
       
       const outOfStock = Number(p.stock) <= 0;
