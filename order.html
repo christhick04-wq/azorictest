@@ -1299,6 +1299,143 @@
   }
 }
 
+/* ===== AZORIC BIO RESPONSIVE POLISH ===== */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.package-card {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.package-card-header > div:last-child {
+  min-width: 0;
+}
+
+.package-card-header h3,
+.package-card-header p,
+.package-includes li {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 950px) {
+  .package-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .package-card:last-child {
+    grid-column: 1 / -1;
+    width: min(100%, 560px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 16px 14px 45px;
+  }
+
+  header {
+    align-items: flex-start;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+
+  .logo-block h1 {
+    font-size: 30px;
+  }
+
+  .order-tag {
+    width: auto;
+    padding: 11px 15px;
+    font-size: 9px;
+  }
+
+  .storefront-intro {
+    margin: 4px 0 22px;
+  }
+
+  .storefront-intro h2 {
+    font-size: clamp(30px, 10vw, 40px);
+    line-height: 1.08;
+  }
+
+  .storefront-intro p {
+    font-size: 14px;
+  }
+
+  .fulfillment-btn {
+    padding: 14px 6px;
+    gap: 6px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .fulfillment-btn .f-icon {
+    font-size: 17px;
+  }
+
+  .package-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .package-card,
+  .package-card:last-child {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  .package-card-header {
+    padding: 22px 18px 14px;
+  }
+
+  .package-card-header h3 {
+    font-size: 19px;
+  }
+
+  .package-includes {
+    padding-inline: 18px;
+  }
+
+  .package-footer {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  header {
+    display: block;
+  }
+
+  .order-tag {
+    display: inline-block;
+    width: auto;
+    margin-top: 14px;
+  }
+
+  .fulfillment-btn {
+    flex-direction: column;
+  }
+}
   
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
