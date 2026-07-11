@@ -8,14 +8,14 @@
 
 <style>
   :root {
-    --bg: #f5f7f5;
-    --surface: #ffffff;
-    --border: #d4e0d4;
-    --accent: #6a9b7e;
-    --accent2: #e4efe8;
-    --accent-dark: #4a7a5e;
-    --text: #1f2d25;
-    --muted: #7a9485;
+    --bg: #fbfaf6;
+    --surface: #fffefb;
+    --border: #ddd9ce;
+    --accent: #879b7d;
+    --accent2: #eef1e9;
+    --accent-dark: #48634d;
+    --text: #263d2d;
+    --muted: #77766e;
     --danger: #c0392b;
     --mono: 'Book Antiqua', 'Palatino Linotype', Palatino, serif;
     --sans: 'Book Antiqua', 'Palatino Linotype', Palatino, serif;
@@ -24,11 +24,12 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--bg);
+    background: radial-gradient(circle at top left, rgba(135, 155, 125, 0.08), transparent 32%),
+    linear-gradient(180deg, #fffefb 0%, var(--bg) 100%);
     color: var(--text);
     font-family: var(--mono);
     min-height: 100vh;
-    padding: 40px 20px 80px;
+    padding: 26px 24px 70px;
   }
 
   /* Subtle leaf-vein background */
@@ -36,37 +37,36 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(106,155,126,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(106,155,126,0.06) 1px, transparent 1px);
-    background-size: 40px 40px;
     pointer-events: none;
-    z-index: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(205, 190, 155, 0.08), transparent 28%);
   }
 
   .page {
-    max-width: 780px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
   }
 
   /* Header */
   header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 48px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-    gap: 20px;
-    flex-wrap: wrap;
-    background: transparent;
+    align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 0 4px 22px;
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+  flex-wrap: wrap;
+  background: transparent;
   }
 
   .logo-block h1 {
     font-family: var(--sans);
-    font-size: 28px;
+    font-size: 38px;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: var(--text);
@@ -86,16 +86,18 @@
   }
 
   .order-tag {
-    background: var(--accent2);
+    background: transparent;
     border: 1px solid var(--accent);
     color: var(--accent-dark);
     font-size: 11px;
-    letter-spacing: 2px;
-    padding: 6px 14px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    padding: 16px 24px;
     text-transform: uppercase;
-    border-radius: 2px;
+    border-radius: 5px;
     white-space: nowrap;
-    font-family: var(--mono);
+    font-family: var(--sans);
+    box-shadow: 0 3px 12px rgba(55, 76, 60, 0.04);
   }
 
   /* Section labels */
@@ -164,22 +166,22 @@
     /* Storefront introduction */
   .storefront-intro {
     text-align: center;
-    margin: -18px 0 30px;
+    margin: 8px 0 18px;
   }
 
   .storefront-intro h2 {
     font-family: var(--sans);
     color: var(--text);
-    font-size: clamp(30px, 5vw, 46px);
-    line-height: 1.1;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.08;
     font-weight: 700;
-    letter-spacing: -1px;
+    letter-spacing: -1.2px;
     margin-bottom: 8px;
   }
 
   .storefront-intro p {
     color: var(--muted);
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.5;
   }
 
@@ -943,6 +945,95 @@
     line-height: 1.7;
   }
 
+/* Storefront visual polish */
+.featured-packages {
+  margin: 18px 0 28px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.package-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.package-card {
+  min-height: 420px;
+  border-color: rgba(90, 111, 89, 0.2);
+  border-radius: 14px;
+  box-shadow:
+    0 10px 28px rgba(57, 68, 57, 0.07),
+    0 2px 6px rgba(57, 68, 57, 0.04);
+}
+
+.package-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 34px rgba(57, 68, 57, 0.1),
+    0 3px 8px rgba(57, 68, 57, 0.05);
+}
+
+.package-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.package-card-header {
+  padding: 26px 22px 15px;
+}
+
+.package-card-header h3 {
+  font-size: 21px;
+  line-height: 1.16;
+}
+
+.package-card-header p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.package-divider {
+  margin: 6px 22px 12px;
+}
+
+.package-includes {
+  padding: 0 22px 22px;
+}
+
+.package-includes li {
+  font-size: 13px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.package-footer {
+  min-height: 82px;
+  padding: 16px 20px;
+}
+
+.package-price {
+  font-size: 28px;
+}
+
+.package-add-btn {
+  min-height: 42px;
+  padding: 10px 17px;
+  border-radius: 5px;
+}
+
+.package-card-premium {
+  border-color: rgba(170, 141, 76, 0.6);
+}
+
+.package-banner {
+  top: -15px;
+  right: 18px;
+  padding: 8px 16px;
+}
+
+  
   /* Print styles */
   @media print {
     body { background: #fff; color: #000; padding: 20px; }
@@ -958,6 +1049,65 @@
     header { flex-direction: column; }
     .peptide-table th:nth-child(2), .peptide-table td:nth-child(2) { display: table-cell; }
   }
+
+  /* Responsive storefront layout */
+@media (max-width: 900px) {
+  .shopping-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shopping-nav-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .shopping-nav-item:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    padding: 18px 14px 50px;
+  }
+
+  .page {
+    max-width: 100%;
+  }
+
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .package-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .shopping-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .shopping-nav-item,
+  .shopping-nav-item:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .shopping-nav-item:last-child {
+    border-bottom: 0;
+  }
+
+  .logo-block h1 {
+    font-size: 32px;
+  }
+
+  .order-tag {
+    width: 100%;
+    text-align: center;
+  }
+}
+  
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("siWhIKQtp1xQ5FWXV");</script>
@@ -976,7 +1126,7 @@
 <!-- PAGE INTRO -->
   <section class="storefront-intro">
     <h2>Choose Your Wellness Solution</h2>
-    <p>Helping you get started has never been easier.</p>
+    <p>Premium peptides. Everything you need to get started.</p>
   </section>
   
   <!-- FULFILLMENT TYPE -->
@@ -1126,6 +1276,140 @@
 
   </section>
 
+<!-- SHOPPING NAVIGATION -->
+<nav class="shopping-nav" aria-label="Shopping categories">
+
+  <button
+    type="button"
+    class="shopping-nav-item"
+    onclick="openIndividualProducts()"
+  >
+    <span class="shopping-nav-icon">🔥</span>
+
+    <span class="shopping-nav-copy">
+      <strong>Best Sellers</strong>
+      <small>Shop our most popular peptides</small>
+    </span>
+
+    <span class="shopping-nav-arrow">›</span>
+  </button>
+
+  <button
+    type="button"
+    class="shopping-nav-item"
+    onclick="document.querySelector('.featured-packages').scrollIntoView({ behavior: 'smooth' })"
+  >
+    <span class="shopping-nav-icon">🎯</span>
+
+    <span class="shopping-nav-copy">
+      <strong>Shop by Goal</strong>
+      <small>Find the right peptides for you</small>
+    </span>
+
+    <span class="shopping-nav-arrow">›</span>
+  </button>
+
+  <button
+    type="button"
+    class="shopping-nav-item"
+    onclick="openIndividualProducts()"
+  >
+    <span class="shopping-nav-icon">⚗</span>
+
+    <span class="shopping-nav-copy">
+      <strong>Individual Products</strong>
+      <small>Browse all available products</small>
+    </span>
+
+    <span class="shopping-nav-arrow">›</span>
+  </button>
+
+  <button
+    type="button"
+    class="shopping-nav-item"
+    onclick="openIndividualProducts()"
+  >
+    <span class="shopping-nav-icon">▰</span>
+
+    <span class="shopping-nav-copy">
+      <strong>Essentials</strong>
+      <small>Syringes, BAC water, and more</small>
+    </span>
+
+    <span class="shopping-nav-arrow">›</span>
+  </button>
+
+</nav>
+
+/* Shopping category navigation */
+.shopping-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 20px 0 16px;
+  overflow: hidden;
+  background: rgba(255, 254, 251, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  box-shadow: 0 5px 18px rgba(57, 68, 57, 0.06);
+}
+
+.shopping-nav-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 19px 18px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--mono);
+  transition: background 0.15s ease;
+}
+
+.shopping-nav-item:last-child {
+  border-right: 0;
+}
+
+.shopping-nav-item:hover {
+  background: var(--accent2);
+}
+
+.shopping-nav-icon {
+  font-size: 25px;
+  line-height: 1;
+}
+
+.shopping-nav-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.shopping-nav-copy strong {
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.shopping-nav-copy small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.shopping-nav-arrow {
+  color: var(--accent);
+  font-size: 24px;
+}
+  
     <!-- INDIVIDUAL PRODUCTS -->
   <section class="individual-products-section">
 
@@ -1366,13 +1650,12 @@
 
 <script>
     function toggleIndividualProducts() {
-    const toggle = document.getElementById('productsToggle');
+    cconst toggle = document.getElementById('productsToggle');
     const section = document.getElementById('productsCollapsible');
 
     if (!toggle || !section) return;
 
     const isOpen = section.classList.toggle('open');
-
     toggle.setAttribute('aria-expanded', String(isOpen));
 
     const actionText = toggle.querySelector('.products-toggle-action');
@@ -1381,8 +1664,26 @@
       actionText.childNodes[0].textContent = isOpen
         ? 'Hide Products '
         : 'View Products ';
-    }
   }
+}
+
+  
+function openIndividualProducts() {
+  const toggle = document.getElementById('productsToggle');
+  const section = document.getElementById('productsCollapsible');
+
+  if (!toggle || !section) return;
+
+  if (!section.classList.contains('open')) {
+    toggleIndividualProducts();
+  }
+
+  toggle.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+  }
+
   const SUPABASE_URL = 'https://topaetuajpdzauvhrefu.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvcGFldHVhanBkemF1dmhyZWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNDg0ODAsImV4cCI6MjA5NDYyNDQ4MH0.K3Lag09MNyEVZaGaMu7iNst2OyzcTfc2PWPPwrGhb9w';
 
