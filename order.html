@@ -1650,24 +1650,24 @@
 
 <script>
     function toggleIndividualProducts() {
-    const toggle = document.getElementById('productsToggle');
-    const section = document.getElementById('productsCollapsible');
+  const toggle = document.getElementById('productsToggle');
+  const section = document.getElementById('productsCollapsible');
 
-    if (!toggle || !section) return;
+  if (!toggle || !section) return;
 
-    const isOpen = section.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
+  const isOpen = section.classList.toggle('open');
 
-    const actionText = toggle.querySelector('.products-toggle-action');
+  toggle.setAttribute('aria-expanded', String(isOpen));
 
-    if (actionText) {
-      actionText.childNodes[0].textContent = isOpen
-        ? 'Hide Products '
-        : 'View Products ';
+  const actionText = toggle.querySelector('.products-toggle-action');
+
+  if (actionText) {
+    actionText.childNodes[0].textContent = isOpen
+      ? 'Hide Products '
+      : 'View Products ';
   }
 }
 
-  
 function openIndividualProducts() {
   const toggle = document.getElementById('productsToggle');
   const section = document.getElementById('productsCollapsible');
@@ -1682,6 +1682,9 @@ function openIndividualProducts() {
     behavior: 'smooth',
     block: 'start'
   });
+}
+
+const SUPABASE_URL = ...
   }
 
   const SUPABASE_URL = 'https://topaetuajpdzauvhrefu.supabase.co';
@@ -2154,6 +2157,7 @@ function openIndividualProducts() {
           // Store payment info BEFORE clearAll wipes the total
           const paymentFirstName = document
              .getElementById('fname')
+             .value
              .trim();
 
           const paymentLastName = document
@@ -2171,8 +2175,9 @@ function openIndividualProducts() {
           window._pendingPayment = {
              method: selectedPayment,
              total: totalVal,
-             note: encodeURIComponent(paymentNote))
+             note: encodeURIComponent(paymentNote)
           };
+          
           showSuccess();
           clearAll();
           window.scrollTo({ top: 0, behavior: 'smooth' });
