@@ -1304,6 +1304,9 @@
       <strong>FirstName.LastInitial–Order</strong><br>
 
       Example: <strong>Jane.D–Order</strong>
+      </div>
+
+      </div>
 
   <!-- NOTES -->
   <div class="notes-wrap">
@@ -1679,7 +1682,7 @@
         payUrl = `https://cash.app/$AmandaMalveiro/${p.total.toFixed(2)}`;
         payLabel = 'Open Cash App';
       } else if (p && p.method === 'venmo') {
-        payUrl = `https://venmo.com/azoricbio?txn=pay&amount=${p.total.toFixed(2)}&note=Cosmetics`;
+        payUrl = `https://venmo.com/azoricbio?txn=pay&amount=${p.total.toFixed(2)}&note=${p.note}`;
         payLabel = 'Open Venmo';
       }
       msg.innerHTML = `Your order has been received!<br><br>
@@ -1848,15 +1851,27 @@
           submitBtn.textContent = '✓ Order Placed!';
           submitBtn.style.background = 'var(--accent-dark)';
           // Store payment info BEFORE clearAll wipes the total
+          const paymentFirstName = document
+             .getElementById('fname')
+             .trim();
+
+          const paymentLastName = document
+             .getElementById('lname')
+             .value
+             .trim();
+
+          const paymentNote =
+             paymentFirstName +
+             (paymentLastName
+               ? '.' + paymentLastName.charAt(0).toUpperCase()
+               : '') +
+             '-Order';
+
           window._pendingPayment = {
-            method: selectedPayment,
-            total: totalVal, 
-            note: encodeURIComponent(
-              '`${document.getElementById('fname').value.trim()}.${document
-                 .getElementById('lname')
-                 .value.trim()
-                 .charAt(0)
-                 .toUpperCase()}-Order`') };
+             method: selectedPayment,
+             total: totalVal,
+             note: encodeURIComponent(paymentNote))
+          };
           showSuccess();
           clearAll();
           window.scrollTo({ top: 0, behavior: 'smooth' });
