@@ -1298,6 +1298,210 @@
     min-height: 0;
   }
 }
+
+/* ===== AZORIC BIO STOREFRONT HEADER ===== */
+
+.site-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 34px;
+  margin: 0 0 28px;
+  padding: 13px 4px 16px;
+  background: rgba(251, 250, 246, 0.88);
+  border-bottom: 1px solid rgba(72, 99, 77, 0.22);
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 44px;
+  color: var(--accent-dark);
+  font-family: "Book Antiqua", Palatino, serif;
+  font-size: 43px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 6px;
+  width: 29px;
+  height: 1px;
+  background: var(--accent-dark);
+  transform: rotate(-16deg);
+  transform-origin: right center;
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  color: var(--accent-dark);
+  font-family: "Book Antiqua", Palatino, serif;
+  font-size: 23px;
+  line-height: 1;
+  letter-spacing: -0.4px;
+}
+
+.brand-tagline {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.storefront-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.3vw, 32px);
+}
+
+.storefront-nav a {
+  position: relative;
+  padding: 14px 0;
+  color: #536157;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.storefront-nav a:hover,
+.storefront-nav a.active {
+  color: var(--accent-dark);
+}
+
+.storefront-nav a.active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  left: 0;
+  height: 1px;
+  background: var(--accent-dark);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.header-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--accent-dark);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.header-icon:hover {
+  background: var(--accent2);
+}
+
+.cart-count {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  display: grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  color: white;
+  background: var(--accent-dark);
+  border: 2px solid var(--bg);
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    grid-template-columns: auto auto;
+    gap: 12px;
+  }
+
+  .storefront-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    gap: 25px;
+    width: 100%;
+    overflow-x: auto;
+    border-top: 1px solid rgba(72, 99, 77, 0.12);
+  }
+
+  .header-actions {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    display: grid;
+    padding-top: 5px;
+  }
+
+  .brand-name {
+    font-size: 21px;
+  }
+
+  .brand-tagline {
+    font-size: 6px;
+    letter-spacing: 1.2px;
+  }
+
+  .brand-mark {
+    width: 32px;
+    font-size: 38px;
+  }
+
+  .storefront-nav {
+    gap: 22px;
+  }
+
+  .storefront-nav a {
+    font-size: 8px;
+  }
+
+  .header-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
   
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1306,14 +1510,36 @@
 <body>
 <div class="page">
 
-  <header>
-    <div class="logo-block">
-      <h1>Azoric <span>Bio</span></h1>
-      <p>Research Order Form</p>
-    </div>
-    <div class="order-tag">Build My Order</div>
-  </header>
+  <headerclass="site-header">
+  <a class="brand-logo" href="index.html" aria-label="Azoric Bio home">
+    <span class="brand-mark">A</span>
 
+    <span class="brand-copy">
+      <span class="brand-name">Azoric Bio</span>
+      <span class="brand-tagline">Peptides. Purpose. Potential.</span>
+    </span>
+  </a>
+
+  <nav class="storefront-nav" aria-label="Main navigation">
+    <a class="active" href="order.html">Shop</a>
+    <a href="#custom-order">Custom Order</a>
+    <a href="#about">About Us</a>
+    <a href="#quality">Quality</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions" aria-label="Store actions">
+    <button type="button" class="header-icon" aria-label="Customer account">
+      ♙
+    </button>
+
+    <button type="button" class="header-icon cart-icon" aria-label="View order">
+      ♧
+      <span class="cart-count">0</span>
+    </button>
+  </div>
+</header>
+    
 <!-- PAGE INTRO -->
   <section class="storefront-intro">
     <h2>Choose Your Wellness Solution</h2>
