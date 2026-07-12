@@ -1540,6 +1540,24 @@
 .products-cart-cta > a { padding: 13px 20px; color: #fff; background: var(--accent-dark); border-radius: 4px; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
 @media (max-width: 600px) { .products-cart-cta { align-items: stretch; flex-direction: column; } .products-cart-cta > a { text-align: center; } }
 
+/* Keep the full product catalog visible */
+
+#productsCollapsible {
+  display: block !important;
+}
+
+#productsToggle {
+  cursor: default;
+}
+
+#productsToggleArrow {
+  display: none;
+}
+
+.products-toggle-action {
+  color: var(--accent-dark);
+}
+  
 </style>
 </head>
 <body>
@@ -1820,7 +1838,6 @@
       type="button"
       class="products-toggle"
       id="productsToggle"
-      onclick="toggleIndividualProducts()"
       aria-expanded="true"
 >
   <span>
@@ -1832,13 +1849,12 @@
   </span>
 
   <span class="products-toggle-action">
-    Hide Products
-    <span id="productsToggleArrow">⌄</span>
+    Products Shown Below
   </span>
+      
 </button>
 
-<div
-  class="products-collapsible open"
+<div class="products-collapsible open"
   id="productsCollapsible"
 >
 
