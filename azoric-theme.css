@@ -1,0 +1,180 @@
+/* Shared Azoric Bio visual theme */
+:root {
+  --az-cream: #f6f3e9;
+  --az-surface: rgba(255, 254, 249, 0.91);
+  --az-sage: #aeb9a0;
+  --az-sage-soft: #e8ece1;
+  --az-green: #304f3a;
+  --az-green-dark: #243d2d;
+  --az-gold: #b59a60;
+  --az-muted: #6f766e;
+  --az-border: rgba(48, 79, 58, 0.20);
+  --az-shadow: 0 12px 34px rgba(48, 66, 52, 0.09);
+
+  --bg: var(--az-cream) !important;
+  --surface: #fffef9 !important;
+  --accent: #87997d !important;
+  --accent2: var(--az-sage-soft) !important;
+  --accent-dark: var(--az-green) !important;
+  --text: #273a2d !important;
+  --muted: var(--az-muted) !important;
+  --border: var(--az-border) !important;
+  --ivory: var(--az-cream) !important;
+  --green: var(--az-green) !important;
+  --sage: #87997d !important;
+  --sage-light: var(--az-sage-soft) !important;
+  --gold: var(--az-gold) !important;
+}
+
+html {
+  background: var(--az-cream);
+}
+
+body {
+  color: var(--az-green-dark) !important;
+  background-color: var(--az-cream) !important;
+  background-image:
+    linear-gradient(rgba(247, 245, 237, 0.42), rgba(247, 245, 237, 0.42)),
+    url("azoric-background.png") !important;
+  background-position: center top !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  font-family: "DM Sans", Arial, sans-serif !important;
+}
+
+h1, h2, h3,
+.brand-name,
+.logo-block h1,
+.storefront-intro h2,
+.package-card-header h3,
+.item-name,
+.panel-heading h2,
+.panel-head h2,
+.page-heading h1,
+.heading h1 {
+  color: var(--az-green) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+}
+
+.site-header {
+  background: rgba(247, 245, 237, 0.88) !important;
+  border-color: var(--az-border) !important;
+  box-shadow: 0 4px 18px rgba(48, 66, 52, 0.05) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.brand-name {
+  font-weight: 600 !important;
+}
+
+.brand-tagline,
+.eyebrow,
+.section-label {
+  letter-spacing: 2px !important;
+}
+
+.main-nav a,
+.storefront-nav a {
+  font-family: "DM Sans", Arial, sans-serif !important;
+}
+
+.nav-shop,
+.cart-link,
+.cart-nav-link,
+.shop-button,
+.shop-link,
+.button-link,
+.checkout-button,
+.place-order,
+.package-add-btn-premium {
+  color: #fff !important;
+  background: var(--az-green) !important;
+  border-color: var(--az-green) !important;
+  box-shadow: 0 7px 18px rgba(48, 79, 58, 0.16);
+}
+
+.nav-shop:hover,
+.cart-link:hover,
+.cart-nav-link:hover,
+.shop-button:hover,
+.shop-link:hover,
+.button-link:hover,
+.checkout-button:hover,
+.place-order:hover {
+  background: var(--az-green-dark) !important;
+}
+
+.research-notice,
+.use-card,
+.package-card,
+.shopping-nav,
+.products-toggle,
+.peptide-table,
+.goal-panel,
+.products-cart-cta,
+.cart-panel,
+.summary-panel,
+.panel,
+.modal-card {
+  background: var(--az-surface) !important;
+  border-color: var(--az-border) !important;
+  box-shadow: var(--az-shadow) !important;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.package-footer,
+.products-cart-cta,
+.guest-note,
+.pickup-note {
+  background: rgba(232, 236, 225, 0.91) !important;
+}
+
+.package-footer-premium {
+  background: rgba(244, 237, 219, 0.93) !important;
+}
+
+input,
+select,
+textarea,
+.quantity-control input {
+  color: var(--az-green-dark) !important;
+  background: rgba(255, 254, 249, 0.95) !important;
+  border-color: var(--az-border) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #87997d !important;
+  box-shadow: 0 0 0 3px rgba(135, 153, 125, 0.16) !important;
+}
+
+.responsibility-section {
+  background: rgba(48, 79, 58, 0.96) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.responsibility-section h2 {
+  color: #fff !important;
+}
+
+footer {
+  background: rgba(239, 238, 229, 0.90) !important;
+  border-color: var(--az-border) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 760px) {
+  body {
+    background-attachment: scroll !important;
+    background-position: 58% top !important;
+  }
+
+  .site-header {
+    background: rgba(247, 245, 237, 0.96) !important;
+  }
+}
