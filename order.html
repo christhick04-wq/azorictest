@@ -1822,20 +1822,25 @@
       id="productsToggle"
       onclick="toggleIndividualProducts()"
       aria-expanded="true"
-    >
-      <span>
-        <strong>All Products</strong>
-        <small>Browse all available peptides and essential below.
-      Use the categories above to narrow the list.</small>
-      </span>
+>
+  <span>
+    <strong>All Products</strong>
+    <small>
+      Browse every available peptide and essential below.
+      Use the categories above to narrow the list.
+    </small>
+  </span>
 
-      <span class="products-toggle-action">
-        Hide Products
-        <span id="productsToggleArrow">⌄</span>
-      </span>
-    </button>
+  <span class="products-toggle-action">
+    Hide Products
+    <span id="productsToggleArrow">⌄</span>
+  </span>
+</button>
 
-    <div class="products-collapsible" id="productsCollapsible">
+<div
+  class="products-collapsible open"
+  id="productsCollapsible"
+>
 
       <table class="peptide-table" id="peptideTable">
         <thead>
