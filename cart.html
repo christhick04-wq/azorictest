@@ -426,12 +426,16 @@
 
     @media (max-width: 850px) {
       .cart-layout {
-        grid-template-columns: 1fr;
-      }
+    grid-template-columns: 1fr;
+  }
 
-      .summary-panel {
-        order: -1;
-      }
+  .cart-panel {
+    order: 1;
+  }
+
+  .summary-panel {
+    order: 2;
+  }
     }
 
     @media (max-width: 650px) {
