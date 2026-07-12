@@ -1557,6 +1557,52 @@
 .products-toggle-action {
   color: var(--accent-dark);
 }
+
+/* Product-filter helper */
+
+.filter-helper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 26px 0 10px;
+  padding: 14px 18px;
+  color: var(--text);
+  background: linear-gradient(
+    90deg,
+    rgba(238, 241, 233, 0.95),
+    rgba(255, 254, 251, 0.95)
+  );
+  border: 1px solid var(--accent);
+  border-left: 4px solid var(--accent-dark);
+  border-radius: 7px;
+  box-shadow: 0 4px 14px rgba(57, 68, 57, 0.05);
+}
+
+.filter-helper strong {
+  flex: 0 0 auto;
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.filter-helper span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.filter-helper b {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 650px) {
+  .filter-helper {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
   
 </style>
 </head>
@@ -1716,6 +1762,15 @@
   </section>
 
 <!-- SHOPPING NAVIGATION -->
+  <div class="filter-helper">
+  <strong>Looking for something specific?</strong>
+
+  <span>
+    Select <b>Best Sellers</b>, <b>Shop by Goal</b>, or
+    <b>Essentials</b> below to filter the product list for your needs.
+  </span>
+</div>
+  
 <nav class="shopping-nav" aria-label="Shopping categories">
 
   <button
@@ -2007,7 +2062,6 @@ function productMatchesView(product, view) {
 
     'best-sellers': [
       'retatrutide',
-      'tirzepatide',
       'ghk-cu',
       'ghk cu',
       'bpc-157',
