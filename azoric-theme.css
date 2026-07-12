@@ -212,3 +212,22 @@ body > .page > .site-header {
     padding-left: 18px !important;
   }
 }
+
+/* Fix navigation alignment in order.html */
+
+.site-header .storefront-nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: clamp(22px, 3vw, 38px) !important;
+  margin-left: auto !important;
+  width: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .site-header .storefront-nav {
+    justify-content: flex-start !important;
+    margin-left: 0 !important;
+    overflow-x: auto;
+  }
+}
