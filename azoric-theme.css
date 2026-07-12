@@ -178,3 +178,37 @@ footer {
     background: rgba(247, 245, 237, 0.96) !important;
   }
 }
+
+body {
+  overflow-x: hidden;
+}
+
+/* Make the Products-page header full width */
+
+body > .page > .site-header {
+  position: relative;
+  width: 100vw !important;
+  max-width: none !important;
+
+  margin-top: -26px !important;
+  margin-right: 0 !important;
+  margin-bottom: 30px !important;
+  margin-left: calc(50% - 50vw) !important;
+
+  padding:
+    16px
+    max(24px, calc((100vw - 1180px) / 2))
+    18px !important;
+
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+}
+
+@media (max-width: 760px) {
+  body > .page > .site-header {
+    margin-top: -18px !important;
+    padding-right: 18px !important;
+    padding-left: 18px !important;
+  }
+}
