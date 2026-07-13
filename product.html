@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Azoric Bio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="azoric-theme.css">
+  <style>
+    :root {
+      --green: #315640;
+      --sage: #9eae91;
+      --pale-sage: #e7ecdf;
+      --cream: #f7f4e9;
+      --paper: rgba(255, 253, 247, 0.9);
+      --gold: #b59450;
+      --line: rgba(49, 86, 64, 0.2);
+      --muted: #6f776f;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; overflow-x: hidden; color: var(--green); font-family: Montserrat, Arial, sans-serif; }
+    button, input { font: inherit; }
+
+    .site-header {
+      width: 100%;
+      min-height: 118px;
+      padding: 24px clamp(22px, 5vw, 76px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      background: rgba(249, 247, 239, 0.94);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 28px rgba(49, 86, 64, 0.08);
+    }
+    .brand { color: var(--green); text-decoration: none; }
+    .brand-name { display: block; font-family: "Cormorant Garamond", Georgia, serif; font-size: 38px; font-weight: 600; line-height: .9; }
+    .brand-tagline { display: block; margin-top: 10px; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+    .main-nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 46px); }
+    .main-nav a { color: #45564b; font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-decoration: none; text-transform: uppercase; }
+    .main-nav a.active { border-bottom: 2px solid var(--green); padding-bottom: 8px; }
+    .main-nav .cart-link { padding: 17px 22px; color: white; background: var(--green); border: 0; border-radius: 6px; }
+
+    .breadcrumbs { width: min(1180px, calc(100% - 40px)); margin: 32px auto 18px; color: var(--muted); font-size: 12px; }
+    .breadcrumbs a { color: var(--green); font-weight: 700; text-decoration: none; }
+
+    .product-shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto 64px;
+      display: grid;
+      grid-template-columns: minmax(320px, .9fr) minmax(360px, 1.1fr);
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 20px 55px rgba(49, 86, 64, 0.13);
+      backdrop-filter: blur(8px);
+    }
+    .product-visual { min-height: 590px; display: grid; place-items: center; padding: 42px; background: linear-gradient(145deg, rgba(220,228,205,.88), rgba(247,244,233,.75)); }
+    .product-visual img { width: min(100%, 500px); aspect-ratio: 1; display: block; object-fit: cover; border-radius: 16px; box-shadow: 0 18px 45px rgba(49, 86, 64, .15); }
+    .product-info { padding: clamp(38px, 6vw, 76px); display: flex; flex-direction: column; justify-content: center; }
+    .eyebrow { margin: 0 0 12px; color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+    h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(50px, 6vw, 76px); font-weight: 500; line-height: .95; }
+    .dose { margin: 14px 0 0; color: var(--muted); font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; }
+    .research-label { align-self: flex-start; margin: 24px 0; padding: 8px 12px; color: var(--green); background: var(--pale-sage); border: 1px solid var(--line); border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    .price { margin: 0 0 28px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 42px; font-weight: 600; }
+    .purchase-row { display: flex; gap: 12px; }
+    .qty { display: grid; grid-template-columns: 44px 52px 44px; height: 54px; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: white; }
+    .qty button { border: 0; color: var(--green); background: var(--pale-sage); cursor: pointer; font-size: 20px; }
+    .qty input { width: 100%; border: 0; color: var(--green); background: transparent; text-align: center; font-weight: 700; appearance: textfield; }
+    .add-button { flex: 1; min-height: 54px; border: 0; border-radius: 7px; color: white; background: linear-gradient(180deg, #718665, #315640); box-shadow: 0 9px 20px rgba(49,86,64,.22); cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+    .add-button:disabled { opacity: .5; cursor: not-allowed; }
+    .purchase-note { margin: 16px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .status { min-height: 20px; margin: 15px 0 0; color: var(--green); font-size: 12px; font-weight: 700; }
+
+    @media (max-width: 760px) {
+      .site-header { align-items: flex-start; flex-direction: column; }
+      .main-nav { width: 100%; justify-content: space-between; gap: 10px; }
+      .main-nav a { font-size: 10px; }
+      .main-nav .cart-link { padding: 13px 14px; }
+      .product-shell { grid-template-columns: 1fr; }
+      .product-visual { min-height: auto; padding: 24px; }
+      .product-info { padding: 36px 25px 42px; }
+      .purchase-row { flex-direction: column; }
+      .qty { width: 100%; grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Azoric Bio home">
+      <span class="brand-name">Azoric Bio</span>
+      <span class="brand-tagline">Peptides. Purpose. Potential.</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a class="active" href="order.html">Products</a>
+      <a class="cart-link" href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+    </nav>
+  </header>
+
+  <div class="breadcrumbs"><a href="order.html">Products</a> &nbsp;/&nbsp; <span id="crumbName">Product details</span></div>
+
+  <main class="product-shell">
+    <section class="product-visual" aria-label="Product image">
+      <img id="productImage" src="retatrutide-10mg-prototype.png" alt="Azoric Bio research vial">
+    </section>
+    <section class="product-info">
+      <p class="eyebrow">Azoric Bio Research Products</p>
+      <h1 id="productName">Loading product…</h1>
+      <p class="dose" id="productDose"></p>
+      <span class="research-label">Research Use Only</span>
+      <p class="price" id="productPrice"></p>
+      <div class="purchase-row">
+        <div class="qty" aria-label="Quantity selector">
+          <button type="button" id="minusButton" aria-label="Decrease quantity">−</button>
+          <input id="quantity" type="number" min="1" value="1" aria-label="Quantity">
+          <button type="button" id="plusButton" aria-label="Increase quantity">+</button>
+        </div>
+        <button class="add-button" id="addButton" type="button" disabled>Add to Cart</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+      <p class="purchase-note">For research purposes only. Not for human consumption. Customers are responsible for reviewing product information before purchasing.</p>
+    </section>
+  </main>
+
+  <script>
+    const SUPABASE_URL = 'https://topaetuajpdzauvhrefu.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvcGFldHVhanBkemF1dmhyZWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNDg0ODAsImV4cCI6MjA5NDYyNDQ4MH0.K3Lag09MNyEVZaGaMu7iNst2OyzcTfc2PWPPwrGhb9w';
+    const AZORIC_CART_KEY = 'azoricBioCart';
+    let selectedProduct = null;
+
+    const fallbackProducts = [
+      { id: 42, name: 'Retatrutide', dose: '10mg', price: 80, stock: 40 },
+      { id: 43, name: 'Tirzepatide', dose: '10mg', price: 35, stock: 40 },
+      { id: 44, name: 'Tirzepatide', dose: '20mg', price: 60, stock: 40 },
+      { id: 45, name: 'GHK-Cu', dose: '50mg', price: 45, stock: 20 },
+      { id: 46, name: 'MOTS-c', dose: '10mg', price: 50, stock: 20 },
+      { id: 47, name: 'CJC-1295 (No DAC) + Ipamorelin', dose: '10mg', price: 65, stock: 20 },
+      { id: 48, name: 'SS-31', dose: '10mg', price: 40, stock: 0 },
+      { id: 49, name: 'NAD+', dose: '500mg', price: 70, stock: 20 },
+      { id: 50, name: 'Semax', dose: '10mg', price: 40, stock: 10 },
+      { id: 51, name: 'Selank', dose: '10mg', price: 40, stock: 10 },
+      { id: 52, name: 'BPC-157', dose: '10mg', price: 45, stock: 20 },
+      { id: 53, name: 'KPV', dose: '10mg', price: 45, stock: 20 },
+      { id: 54, name: 'PT-141', dose: '10mg', price: 45, stock: 20 },
+      { id: 55, name: 'Bacteriostatic Water', dose: '30ML', price: 25, stock: 50 }
+    ];
+
+    function getCart() {
+      try {
+        const cart = JSON.parse(localStorage.getItem(AZORIC_CART_KEY));
+        return Array.isArray(cart) ? cart : [];
+      } catch (_) { return []; }
+    }
+
+    function updateCartCount() {
+      const count = getCart().reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function renderProduct(product) {
+      selectedProduct = product;
+      const isOut = Number(product.stock) <= 0;
+      const title = `${product.name}${product.dose ? ` ${product.dose}` : ''}`;
+      document.title = `${title} | Azoric Bio`;
+      document.getElementById('crumbName').textContent = title;
+      document.getElementById('productName').textContent = product.name;
+      document.getElementById('productDose').textContent = product.dose || '';
+      document.getElementById('productPrice').textContent = `$${Number(product.price).toFixed(2)}`;
+      document.getElementById('quantity').max = Math.max(1, Number(product.stock) || 1);
+      const button = document.getElementById('addButton');
+      button.disabled = isOut;
+      button.textContent = isOut ? 'Out of Stock' : 'Add to Cart';
+      const image = document.getElementById('productImage');
+      image.alt = `${title} Azoric Bio research vial`;
+    }
+
+    async function loadProduct() {
+      const id = Number(new URLSearchParams(location.search).get('id')) || 42;
+      let products = fallbackProducts;
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/inventory?id=eq.${id}&limit=1`, {
+          headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+        });
+        const data = await response.json();
+        if (Array.isArray(data) && data.length) products = data;
+      } catch (_) {}
+      const product = products.find(item => Number(item.id) === id) || fallbackProducts.find(item => Number(item.id) === id) || fallbackProducts[0];
+      renderProduct(product);
+    }
+
+    function clampQuantity(value) {
+      const max = Math.max(1, Number(selectedProduct?.stock) || 1);
+      return Math.max(1, Math.min(max, Number(value) || 1));
+    }
+
+    document.getElementById('minusButton').addEventListener('click', () => {
+      const input = document.getElementById('quantity');
+      input.value = clampQuantity(Number(input.value) - 1);
+    });
+    document.getElementById('plusButton').addEventListener('click', () => {
+      const input = document.getElementById('quantity');
+      input.value = clampQuantity(Number(input.value) + 1);
+    });
+    document.getElementById('quantity').addEventListener('change', event => {
+      event.target.value = clampQuantity(event.target.value);
+    });
+    document.getElementById('addButton').addEventListener('click', () => {
+      if (!selectedProduct || Number(selectedProduct.stock) <= 0) return;
+      const quantity = clampQuantity(document.getElementById('quantity').value);
+      const cart = getCart();
+      const cartId = `product-${selectedProduct.id}`;
+      const existing = cart.find(item => item.cartId === cartId);
+      if (existing) {
+        existing.quantity = Math.min(Number(selectedProduct.stock) || 99, Number(existing.quantity || 0) + quantity);
+      } else {
+        cart.push({
+          cartId,
+          category: 'product',
+          productId: selectedProduct.id,
+          name: selectedProduct.name,
+          dose: selectedProduct.dose || '',
+          price: Number(selectedProduct.price),
+          stock: Number(selectedProduct.stock) || 99,
+          quantity,
+          details: `${selectedProduct.name}${selectedProduct.dose ? ` ${selectedProduct.dose}` : ''}`
+        });
+      }
+      localStorage.setItem(AZORIC_CART_KEY, JSON.stringify(cart));
+      updateCartCount();
+      document.getElementById('status').textContent = `${quantity} added to your cart.`;
+      const button = document.getElementById('addButton');
+      button.textContent = 'Added to Cart ✓';
+      setTimeout(() => { button.textContent = 'Add to Cart'; }, 1400);
+    });
+
+    updateCartCount();
+    loadProduct();
+  </script>
+</body>
+</html>

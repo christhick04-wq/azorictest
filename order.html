@@ -1540,73 +1540,18 @@
 .products-cart-cta > a { padding: 13px 20px; color: #fff; background: var(--accent-dark); border-radius: 4px; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
 @media (max-width: 600px) { .products-cart-cta { align-items: stretch; flex-direction: column; } .products-cart-cta > a { text-align: center; } }
 
-/* Keep the full product catalog visible */
-
-#productsCollapsible {
-  display: block !important;
+.product-detail-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
 }
 
-#productsToggle {
-  cursor: default;
-}
-
-#productsToggleArrow {
-  display: none;
-}
-
-.products-toggle-action {
+.product-detail-link:hover {
   color: var(--accent-dark);
+  border-bottom-color: currentColor;
 }
 
-/* Product-filter helper */
-
-.filter-helper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 26px 0 10px;
-  padding: 14px 18px;
-  color: var(--text);
-  background: linear-gradient(
-    90deg,
-    rgba(238, 241, 233, 0.95),
-    rgba(255, 254, 251, 0.95)
-  );
-  border: 1px solid var(--accent);
-  border-left: 4px solid var(--accent-dark);
-  border-radius: 7px;
-  box-shadow: 0 4px 14px rgba(57, 68, 57, 0.05);
-}
-
-.filter-helper strong {
-  flex: 0 0 auto;
-  color: var(--accent-dark);
-  font-family: var(--sans);
-  font-size: 13px;
-}
-
-.filter-helper span {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.filter-helper b {
-  color: var(--accent-dark);
-  font-weight: 700;
-}
-
-@media (max-width: 650px) {
-  .filter-helper {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 5px;
-  }
-}
-  
 </style>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="azoric-theme.css">
 </head>
 <body>
 <div class="page">
@@ -1618,7 +1563,7 @@
         <span class="brand-tagline">Peptides. Purpose. Potential.</span>
       </span>
     </a>
-    
+
     <nav class="storefront-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a class="active" href="order.html">Products</a>
@@ -1627,28 +1572,10 @@
       </a>
     </nav>
   </header>
-
-  <div class="header-product-search">
-  <input
-    type="search"
-    id="productSearch"
-    placeholder="Search products..."
-    aria-label="Search products"
-    autocomplete="off"
-    oninput="searchProducts(this.value)"
-  >
-
-  <button
-    type="button"
-    onclick="clearProductSearch()"
-  >
-    Clear
-  </button>
-</div>
     
 <!-- PAGE INTRO -->
   <section class="storefront-intro">
-    <h1>Explore Our Products</h1>
+    <h2>Choose Your Wellness Solution</h2>
     <p>Premium peptides. Everything you need to get started.</p>
   </section>
   
@@ -1782,15 +1709,6 @@
   </section>
 
 <!-- SHOPPING NAVIGATION -->
-  <div class="filter-helper">
-  <strong>Looking for something specific?</strong>
-
-  <span>
-    Select <b>Best Sellers</b>, <b>Shop by Goal</b>, or
-    <b>Essentials</b> below to filter the product list for your needs.
-  </span>
-</div>
-  
 <nav class="shopping-nav" aria-label="Shopping categories">
 
   <button
@@ -1913,25 +1831,21 @@
       type="button"
       class="products-toggle"
       id="productsToggle"
-      aria-expanded="true"
->
-  <span>
-    <strong>All Products</strong>
-    <small>
-      Browse every available peptide and essential below.
-      Use the categories above to narrow the list.
-    </small>
-  </span>
+      onclick="toggleIndividualProducts()"
+      aria-expanded="false"
+    >
+      <span>
+        <strong>Individual Products</strong>
+        <small>Browse all available peptides and essentials.</small>
+      </span>
 
-  <span class="products-toggle-action">
-    Products Shown Below
-  </span>
-      
-</button>
+      <span class="products-toggle-action">
+        View Products
+        <span id="productsToggleArrow">⌄</span>
+      </span>
+    </button>
 
-<div class="products-collapsible open"
-  id="productsCollapsible"
->
+    <div class="products-collapsible" id="productsCollapsible">
 
       <table class="peptide-table" id="peptideTable">
         <thead>
@@ -2010,7 +1924,6 @@ function openIndividualProducts() {
   let products = [];
   let quantities = [];
   let currentProductView = 'all';
-  let currentSearchTerm = '';
 
   const defaultProducts = [
     { id: 1,  name: "Tirzepatide",              dose: "10mg",  stock: 40, low_at: 10, price: 45 },
@@ -2083,6 +1996,7 @@ function productMatchesView(product, view) {
 
     'best-sellers': [
       'retatrutide',
+      'tirzepatide',
       'ghk-cu',
       'ghk cu',
       'bpc-157',
@@ -2138,40 +2052,11 @@ function productMatchesView(product, view) {
     ]
   };
 
-  const matchesSelectedView =
-  view === 'all' ||
-  nameIncludesAny(product, views[view] || []);
+  if (view === 'all') return true;
 
-const matchesSearch =
-  !currentSearchTerm ||
-  normalizeProductName(product).includes(currentSearchTerm);
-
-return matchesSelectedView && matchesSearch;
+  return nameIncludesAny(product, views[view] || []);
 }
 
-function searchProducts(value) {
-  currentSearchTerm = value.trim().toLowerCase();
-
-  const section = document.getElementById('productsCollapsible');
-
-  if (section) {
-    section.classList.add('open');
-  }
-
-  buildTable();
-}
-
-function clearProductSearch() {
-  const searchInput = document.getElementById('productSearch');
-
-  if (searchInput) {
-    searchInput.value = '';
-  }
-
-  currentSearchTerm = '';
-  buildTable();
-}
-  
 function getProductViewText(view) {
   const viewText = {
     all: {
@@ -2288,7 +2173,11 @@ function closeGoalPanel() {
       
       tr.innerHTML = `
         <td>
-          <div class="compound-name">${p.name}${p.dose ? ' <span style=\'color:var(--accent);font-size:12px;font-weight:400;\'>' + p.dose + '</span>' : ''}</div>
+          <div class="compound-name">
+            <a class="product-detail-link" href="product.html?id=${p.id}">
+              ${p.name}${p.dose ? ' <span style=\'color:var(--accent);font-size:12px;font-weight:400;\'>' + p.dose + '</span>' : ''}
+            </a>
+          </div>
         </td>
         
         <td>
