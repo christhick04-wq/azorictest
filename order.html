@@ -1604,46 +1604,6 @@
   }
 }
   
-/* ===== VISUAL PRODUCT STOREFRONT ===== */
-.product-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; padding-top:20px; }
-.product-card { overflow:hidden; background:rgba(255,254,249,.94); border:1px solid var(--border); border-radius:16px; box-shadow:0 12px 30px rgba(48,66,52,.10); transition:transform .2s ease,box-shadow .2s ease; }
-.product-card:hover { transform:translateY(-4px); box-shadow:0 18px 38px rgba(48,66,52,.16); }
-.product-card-image { position:relative; aspect-ratio:1/1; overflow:hidden; background:#e6eadf; }
-.product-card-image img { width:100%; height:100%; display:block; object-fit:cover; }
-.vial-live-label { position:absolute; left:35.5%; top:61.5%; width:29%; color:#304f3a; font-family:"Cormorant Garamond",Georgia,serif; text-align:center; transform:translateY(-50%); pointer-events:none; }
-.vial-live-label strong { display:block; font-size:clamp(10px,1.1vw,16px); font-weight:600; line-height:1; overflow-wrap:anywhere; }
-.vial-live-label span { display:block; margin-top:5px; font-size:clamp(9px,.9vw,13px); }
-.stock-badge { position:absolute; top:14px; left:14px; padding:7px 10px; color:#304f3a; background:rgba(255,254,249,.9); border:1px solid rgba(48,79,58,.18); border-radius:999px; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
-.product-card-copy { padding:19px; }
-.product-category { margin:12px 0 0; color:var(--muted); font-size:12px; font-weight:500; letter-spacing:0; text-transform:none; }
-.product-card-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-.product-card h3 { margin:0; font-size:25px; line-height:1; }
-.product-card-price { color:var(--accent-dark); font-family:"Cormorant Garamond",Georgia,serif; font-size:24px; font-weight:600; white-space:nowrap; }
-.product-card-dose { margin:7px 0 0; color:var(--muted); font-size:12px; }
-.product-card-actions { display:block; margin-top:18px; }
-.product-view-link,.product-add-button { min-height:42px; display:grid; place-items:center; border:1px solid var(--accent-dark); border-radius:6px; font-size:10px; font-weight:700; letter-spacing:1px; text-decoration:none; text-transform:uppercase; cursor:pointer; }
-.product-view-link { color:var(--accent-dark); background:transparent; }
-.product-card .product-view-link { width:100%; color:#fff; background:var(--accent-dark); }
-.product-add-button { color:white; background:var(--accent-dark); }
-.product-add-button:disabled { opacity:.45; cursor:not-allowed; }
-.empty-products { grid-column:1/-1; padding:46px; color:var(--muted); background:rgba(255,254,249,.9); border:1px solid var(--border); border-radius:12px; text-align:center; }
-.shopping-nav-icon { width:34px; height:34px; display:grid; place-items:center; color:var(--accent-dark); background:var(--accent2); border:1px solid var(--border); border-radius:50%; font-family:Georgia,serif; font-size:17px; }
-.featured-packages { width:min(100%,1280px); margin-left:auto; margin-right:auto; }
-.package-card { min-height:0 !important; }
-.package-card-header { padding:18px 18px 10px; }
-.package-card-header h3 { font-size:19px; }
-.package-visual { position:relative; height:150px; margin:8px 18px 12px; overflow:hidden; background:linear-gradient(120deg,rgba(232,236,225,.95),rgba(247,244,233,.8)); border:1px solid var(--border); border-radius:10px; }
-.package-visual img { width:100%; height:100%; display:block; object-fit:contain; object-position:center; }
-.package-vial-label { position:absolute; left:50%; top:61%; width:72px; color:#304f3a; font-family:"Cormorant Garamond",Georgia,serif; text-align:center; transform:translate(-50%,-50%); pointer-events:none; }
-.package-vial-label strong { display:block; font-size:10px; line-height:1; overflow-wrap:anywhere; }
-.package-vial-label span { display:block; margin-top:3px; font-size:9px; }
-.package-divider { margin-top:0; }
-.package-includes { flex:0 0 auto; padding-bottom:12px; }
-.package-includes li { padding-top:4px; padding-bottom:4px; }
-.package-footer { min-height:68px; padding:12px 16px; }
-@media(max-width:1150px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
-@media(max-width:850px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.package-visual{height:145px}}
-@media(max-width:560px){.product-grid{grid-template-columns:1fr}.vial-live-label strong{font-size:17px}.vial-live-label span{font-size:13px}}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="azoric-theme.css">
@@ -1707,17 +1667,12 @@
       <article class="package-card">
 
         <div class="package-card-header">
-          <div class="package-icon" aria-hidden="true">◇</div>
+          <div class="package-icon">🌿</div>
 
           <div>
             <h3>Essential Weight Loss Package</h3>
             <p>A great place to begin.</p>
           </div>
-        </div>
-
-        <div class="package-visual">
-          <img src="azoric-vial-template.png" alt="Tirzepatide 10mg package vial">
-          <span class="package-vial-label"><strong>Tirzepatide</strong><span>10mg</span></span>
         </div>
 
         <div class="package-divider"></div>
@@ -1753,11 +1708,6 @@
             <h3>Advanced Weight Loss Package</h3>
             <p>More product for longer-lasting use.</p>
           </div>
-        </div>
-
-        <div class="package-visual">
-          <img src="azoric-vial-template.png" alt="Tirzepatide 20mg package vial">
-          <span class="package-vial-label"><strong>Tirzepatide</strong><span>20mg</span></span>
         </div>
 
         <div class="package-divider"></div>
@@ -1797,11 +1747,6 @@
             <h3>Premium Weight Loss Package</h3>
             <p>Our most comprehensive starter package.</p>
           </div>
-        </div>
-
-        <div class="package-visual">
-          <img src="azoric-vial-template.png" alt="Retatrutide 10mg package vial">
-          <span class="package-vial-label"><strong>Retatrutide</strong><span>10mg</span></span>
         </div>
 
         <div class="package-divider"></div>
@@ -1853,7 +1798,7 @@
     class="shopping-nav-item"
     onclick="showProductView('best-sellers')"
   >
-    <span class="shopping-nav-icon" aria-hidden="true">✦</span>
+    <span class="shopping-nav-icon">🔥</span>
 
     <span class="shopping-nav-copy">
       <strong>Best Sellers</strong>
@@ -1868,7 +1813,7 @@
     class="shopping-nav-item"
     onclick="openGoalPanel()"
   >
-    <span class="shopping-nav-icon" aria-hidden="true">⌁</span>
+    <span class="shopping-nav-icon">🎯</span>
 
     <span class="shopping-nav-copy">
       <strong>Shop by Goal</strong>
@@ -1883,7 +1828,7 @@
     class="shopping-nav-item"
     onclick="showProductView('all')"
   >
-    <span class="shopping-nav-icon" aria-hidden="true">◇</span>
+    <span class="shopping-nav-icon">⚗</span>
 
     <span class="shopping-nav-copy">
       <strong>Individual Products</strong>
@@ -1898,7 +1843,7 @@
     class="shopping-nav-item"
     onclick="showProductView('essentials')"
   >
-    <span class="shopping-nav-icon" aria-hidden="true">○</span>
+    <span class="shopping-nav-icon">▰</span>
 
     <span class="shopping-nav-copy">
       <strong>Essentials</strong>
@@ -1930,31 +1875,31 @@
 
   <div class="goal-grid">
     <button type="button" onclick="showProductView('weight')">
-      <span aria-hidden="true">◌</span>
+      <span>⚖️</span>
       <strong>Weight Support</strong>
       <small>Browse weight-support products</small>
     </button>
 
     <button type="button" onclick="showProductView('beauty')">
-      <span aria-hidden="true">✧</span>
+      <span>✨</span>
       <strong>Skin &amp; Beauty</strong>
       <small>Browse beauty-focused products</small>
     </button>
 
     <button type="button" onclick="showProductView('recovery')">
-      <span aria-hidden="true">⌁</span>
+      <span>🌿</span>
       <strong>Recovery Support</strong>
       <small>Browse recovery-focused products</small>
     </button>
 
     <button type="button" onclick="showProductView('focus')">
-      <span aria-hidden="true">◇</span>
+      <span>⚡</span>
       <strong>Energy &amp; Focus</strong>
       <small>Browse energy and focus products</small>
     </button>
 
     <button type="button" onclick="showProductView('wellness')">
-      <span aria-hidden="true">◎</span>
+      <span>🎯</span>
       <strong>Performance &amp; Wellness</strong>
       <small>Browse performance-focused products</small>
     </button>
@@ -1988,7 +1933,18 @@
   id="productsCollapsible"
 >
 
-      <div class="product-grid" id="productGrid"></div>
+      <table class="peptide-table" id="peptideTable">
+        <thead>
+        <tr>
+          <th>Compound</th>
+          <th>Status</th>
+          <th style="text-align:right">Price</th>
+          <th style="text-align:center">Qty</th>
+        </tr>
+      </thead>
+
+      <tbody id="productRows"></tbody>
+    </table>
 
   </div>
 
@@ -2314,67 +2270,65 @@ function closeGoalPanel() {
   }
 }
   
-  function productCategory(product) {
-    const name = normalizeProductName(product);
-    if (name.includes('bac water') || name.includes('bacteriostatic')) return 'Research Supplies';
-    if (name.includes('tirzepatide') || name.includes('retatrutide') || name.includes('mots')) return 'Metabolic Research';
-    if (name.includes('ghk')) return 'Dermal Research';
-    if (name.includes('cjc') || name.includes('ipamorelin') || name.includes('tesamorelin')) return 'Secretagogue Research';
-    if (name.includes('semax') || name.includes('selank')) return 'Cognitive Research';
-    if (name.includes('nad') || name.includes('ss-31')) return 'Cellular Research';
-    return 'Cellular Peptide';
-  }
-
   function buildTable() {
-    const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
-    let visibleCount = 0;
-    const seenProductNames = new Set();
-
+    const tbody = document.getElementById('productRows');
+    tbody.innerHTML = '';
+    
     products.forEach((p, i) => {
       if (!productMatchesView(p, currentProductView)) return;
-      const productKey = String(p.name || '').trim().toLowerCase();
-      if (seenProductNames.has(productKey)) return;
-      seenProductNames.add(productKey);
-
-      const variants = products.filter(item => String(item.name || '').trim().toLowerCase() === productKey);
-      const availableVariants = variants.filter(item => Number(item.stock) > 0);
-      const startingPrice = Math.min(...variants.map(item => Number(item.price)));
-      const hasOptions = variants.length > 1 || productKey.includes('ghk');
-      visibleCount += 1;
+      
       if (quantities[i] === undefined) quantities[i] = 0;
-      const outOfStock = availableVariants.length === 0;
-      const card = document.createElement('article');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <a class="product-card-image" href="product.html?id=${p.id}" aria-label="View ${p.name} ${p.dose || ''}">
-          <img src="azoric-vial-template.png" alt="${p.name} ${p.dose || ''} Azoric Bio research vial">
-          <span class="vial-live-label"><strong>${p.name}</strong><span>${hasOptions ? '' : (p.dose || '')}</span></span>
-          ${outOfStock ? '<span class="stock-badge">Out of Stock</span>' : ''}
-        </a>
-        <div class="product-card-copy">
-          <div class="product-card-title-row">
-            <div><h3>${p.name}</h3></div>
-            <span class="product-card-price">${hasOptions ? '<small style="display:block;font-family:DM Sans,Arial,sans-serif;font-size:9px;color:var(--muted);font-weight:500;">From</small>' : ''}$${startingPrice.toFixed(2)}</span>
-          </div>
-          <p class="product-category">${productCategory(p)}</p>
-          <div class="product-card-actions">
-            <a class="product-view-link" href="product.html?id=${p.id}">View</a>
-          </div>
-        </div>`;
-      grid.appendChild(card);
+      
+      const outOfStock = Number(p.stock) <= 0;
+      const tr = document.createElement('tr');
+      
+      if (outOfStock) {
+        tr.classList.add('out-of-stock-row');
+       }
+      
+      tr.innerHTML = `
+        <td>
+          <div class="compound-name">${p.name}${p.dose ? ' <span style=\'color:var(--accent);font-size:12px;font-weight:400;\'>' + p.dose + '</span>' : ''}</div>
+        </td>
+        
+        <td>
+         ${
+          outOfStock
+            ? '<span class="out-of-stock-text">Out of Stock</span>'
+            : ''
+        }
+      </td>
+      
+        <td style="text-align:right; color:var(--accent-dark); font-size:13px;">$${Number(p.price).toFixed(2)}
+        </td>
+        
+        <td class="qty-cell">
+          ${
+           outOfStock
+             ? '<span class="out-of-stock-text">—</span>'
+             : `
+               <div class="qty-control">
+                 <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
+                 
+                 <input
+                   class="qty-display"
+                   type="number"
+                   min="0"
+                   max="${p.stock}"
+                   value="${quantities[i]}"
+                   id="qty_${i}"
+                   onchange="setQty(${i}, this.value)"
+                 >
+                 
+                 <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
+               </div>
+             `
+         }
+       </td>
+      `;
+      
+      tbody.appendChild(tr);
     });
-
-    if (!visibleCount) grid.innerHTML = '<div class="empty-products">No products match your search. Try another name or choose Individual Products.</div>';
-  }
-
-  function addSingleProduct(i, button) {
-    quantities[i] = Math.min(Number(products[i].stock) || 99, Number(quantities[i] || 0) + 1);
-    saveProductSelectionsToCart();
-    updateCartCount();
-    const original = button.textContent;
-    button.textContent = 'Added ✓';
-    setTimeout(() => { button.textContent = original; }, 1200);
   }
 
   function changeQty(i, delta) {
