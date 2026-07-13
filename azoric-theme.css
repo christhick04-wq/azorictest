@@ -336,3 +336,12 @@ body > .page > .site-header {
     width: min(100%, 300px);
   }
 }
+
+.storefront-intro h1 {
+  color: var(--az-green);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(40px, 5vw, 58px);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
