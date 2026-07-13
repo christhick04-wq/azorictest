@@ -59,13 +59,17 @@
       box-shadow: 0 20px 55px rgba(49, 86, 64, 0.13);
       backdrop-filter: blur(8px);
     }
-    .product-visual { min-height: 590px; display: grid; place-items: center; padding: 42px; background: linear-gradient(145deg, rgba(220,228,205,.88), rgba(247,244,233,.75)); }
+    .product-visual { position:relative; min-height:590px; display:grid; place-items:center; padding:42px; background:linear-gradient(145deg,rgba(220,228,205,.88),rgba(247,244,233,.75)); }
     .product-visual img { width: min(100%, 500px); aspect-ratio: 1; display: block; object-fit: cover; border-radius: 16px; box-shadow: 0 18px 45px rgba(49, 86, 64, .15); }
+    .detail-vial-label { position:absolute; left:42%; top:58%; width:16%; color:var(--green); font-family:"Cormorant Garamond",Georgia,serif; text-align:center; transform:translateY(-50%); }
+    .detail-vial-label strong { display:block; font-size:clamp(13px,1.5vw,20px); line-height:1; overflow-wrap:anywhere; }
+    .detail-vial-label span { display:block; margin-top:7px; font-size:clamp(11px,1.2vw,16px); }
     .product-info { padding: clamp(38px, 6vw, 76px); display: flex; flex-direction: column; justify-content: center; }
     .eyebrow { margin: 0 0 12px; color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
     h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(50px, 6vw, 76px); font-weight: 500; line-height: .95; }
     .dose { margin: 14px 0 0; color: var(--muted); font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; }
     .research-label { align-self: flex-start; margin: 24px 0; padding: 8px 12px; color: var(--green); background: var(--pale-sage); border: 1px solid var(--line); border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    .product-description { margin:0 0 22px; color:var(--muted); font-size:14px; line-height:1.75; }
     .price { margin: 0 0 28px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 42px; font-weight: 600; }
     .purchase-row { display: flex; gap: 12px; }
     .qty { display: grid; grid-template-columns: 44px 52px 44px; height: 54px; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: white; }
@@ -75,6 +79,14 @@
     .add-button:disabled { opacity: .5; cursor: not-allowed; }
     .purchase-note { margin: 16px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
     .status { min-height: 20px; margin: 15px 0 0; color: var(--green); font-size: 12px; font-weight: 700; }
+    .option-label { margin:18px 0 9px; color:var(--green); font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+    .dose-options,.bundle-options { display:flex; flex-wrap:wrap; gap:9px; }
+    .choice-button { padding:12px 16px; color:var(--green); background:white; border:1px solid var(--line); border-radius:7px; cursor:pointer; font-weight:700; }
+    .choice-button.active { color:white; background:var(--green); border-color:var(--green); }
+    .bundle-options { display:grid; grid-template-columns:repeat(3,1fr); margin-bottom:22px; }
+    .bundle-button { padding:13px 8px; }
+    .bundle-button span { display:block; margin-top:4px; color:var(--gold); font-size:10px; }
+    .bundle-button.active span { color:#f2dca9; }
 
     @media (max-width: 760px) {
       .site-header { align-items: flex-start; flex-direction: column; }
@@ -106,14 +118,23 @@
 
   <main class="product-shell">
     <section class="product-visual" aria-label="Product image">
-      <img id="productImage" src="retatrutide-10mg-prototype.png" alt="Azoric Bio research vial">
+      <img id="productImage" src="azoric-vial-template.png" alt="Azoric Bio research vial">
+      <span class="detail-vial-label"><strong id="vialName"></strong><span id="vialDose"></span></span>
     </section>
     <section class="product-info">
       <p class="eyebrow">Azoric Bio Research Products</p>
       <h1 id="productName">Loading product…</h1>
-      <p class="dose" id="productDose"></p>
       <span class="research-label">Research Use Only</span>
+      <p class="product-description" id="productDescription"></p>
       <p class="price" id="productPrice"></p>
+      <p class="option-label">Dosage</p>
+      <div class="dose-options" id="doseOptions"></div>
+      <p class="option-label">Bundle &amp; Save</p>
+      <div class="bundle-options">
+        <button class="choice-button bundle-button active" type="button" data-quantity="1">1 Bottle<span>Regular price</span></button>
+        <button class="choice-button bundle-button" type="button" data-quantity="2">2 Bottles<span>Save $5</span></button>
+        <button class="choice-button bundle-button" type="button" data-quantity="3">3+ Bottles<span>Save $10</span></button>
+      </div>
       <div class="purchase-row">
         <div class="qty" aria-label="Quantity selector">
           <button type="button" id="minusButton" aria-label="Decrease quantity">−</button>
@@ -132,6 +153,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvcGFldHVhanBkemF1dmhyZWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNDg0ODAsImV4cCI6MjA5NDYyNDQ4MH0.K3Lag09MNyEVZaGaMu7iNst2OyzcTfc2PWPPwrGhb9w';
     const AZORIC_CART_KEY = 'azoricBioCart';
     let selectedProduct = null;
+    let currentVariants = [];
 
     const fallbackProducts = [
       { id: 42, name: 'Retatrutide', dose: '10mg', price: 80, stock: 40 },
@@ -162,6 +184,25 @@
       document.getElementById('cartCount').textContent = count;
     }
 
+    function descriptionFor(product) {
+      const name = product.name.toLowerCase();
+      if (name.includes('retatrutide')) return 'A 39-amino-acid triple-receptor agonist studied for its activity at GIP, GLP-1, and glucagon receptors in metabolic research models.';
+      if (name.includes('tirzepatide')) return 'A synthetic 39-amino-acid dual-receptor agonist studied for its activity at GIP and GLP-1 receptors in metabolic research.';
+      if (name.includes('bpc-157')) return 'A 15-amino-acid research peptide examined in preclinical models involving cellular response, tissue signaling, and regenerative processes.';
+      if (name.includes('ghk')) return 'A naturally occurring copper-binding tripeptide studied in laboratory models involving extracellular matrix signaling, tissue remodeling, and collagen-related processes.';
+      if (name.includes('tesamorelin')) return 'A 44-amino-acid GHRH analog investigated for its interaction with pituitary growth-hormone signaling pathways in research settings.';
+      if (name.includes('cjc') || name.includes('ipamorelin')) return 'A research combination studied for synchronized activity involving GHRH and ghrelin-receptor signaling pathways.';
+      if (name.includes('kpv')) return 'A three-amino-acid peptide derived from the C-terminal sequence of alpha-MSH and studied in preclinical inflammatory-signaling models.';
+      if (name.includes('mots')) return 'A mitochondrial-derived peptide investigated in preclinical studies involving cellular metabolism, energy regulation, and exercise-related signaling.';
+      if (name.includes('nad')) return 'A dinucleotide coenzyme studied for its central roles in cellular energy transfer, redox reactions, sirtuin activity, and mitochondrial function.';
+      if (name.includes('selank')) return 'A synthetic heptapeptide studied in research involving GABAergic signaling, neurotrophic pathways, cognition, and stress-related responses.';
+      if (name.includes('semax')) return 'A synthetic ACTH-derived heptapeptide investigated in research involving BDNF expression, TrkB signaling, cognition, and neuroprotective pathways.';
+      if (name.includes('pt-141')) return 'A cyclic melanocortin-receptor peptide studied in clinical and laboratory research involving MC3R and MC4R signaling.';
+      if (name.includes('ss-31')) return 'A mitochondria-targeting tetrapeptide studied for its interaction with cardiolipin and mitochondrial membrane bioenergetics.';
+      if (name.includes('bacteriostatic') || name.includes('bac water')) return 'Sterile research supply containing 0.9% benzyl alcohol. For research use only.';
+      return 'An Azoric Bio research product offered for laboratory and in-vitro research applications.';
+    }
+
     function renderProduct(product) {
       selectedProduct = product;
       const isOut = Number(product.stock) <= 0;
@@ -169,28 +210,68 @@
       document.title = `${title} | Azoric Bio`;
       document.getElementById('crumbName').textContent = title;
       document.getElementById('productName').textContent = product.name;
-      document.getElementById('productDose').textContent = product.dose || '';
-      document.getElementById('productPrice').textContent = `$${Number(product.price).toFixed(2)}`;
+      document.getElementById('vialName').textContent = product.name;
+      document.getElementById('vialDose').textContent = product.dose || '';
+      document.getElementById('productDescription').textContent = descriptionFor(product);
       document.getElementById('quantity').max = Math.max(1, Number(product.stock) || 1);
       const button = document.getElementById('addButton');
       button.disabled = isOut;
       button.textContent = isOut ? 'Out of Stock' : 'Add to Cart';
       const image = document.getElementById('productImage');
       image.alt = `${title} Azoric Bio research vial`;
+      updateBundlePrice();
+    }
+
+    function variantsFor(product, inventory) {
+      const name = product.name.toLowerCase();
+      if (name.includes('tirzepatide')) return inventory.filter(item => item.name.toLowerCase().includes('tirzepatide'));
+      if (name.includes('ghk')) {
+        const fifty = inventory.find(item => item.name.toLowerCase().includes('ghk') && String(item.dose).toLowerCase() === '50mg') || product;
+        return [fifty, { ...fifty, id: 'ghk-cu-100mg', dose: '100mg', price: 80, stock: 99 }];
+      }
+      return [product];
+    }
+
+    function renderDoseOptions() {
+      const wrap = document.getElementById('doseOptions');
+      wrap.innerHTML = '';
+      currentVariants.forEach((variant, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `choice-button${variant.id === selectedProduct.id ? ' active' : ''}`;
+        button.textContent = variant.dose || 'Standard';
+        button.addEventListener('click', () => {
+          document.querySelectorAll('#doseOptions .choice-button').forEach(item => item.classList.remove('active'));
+          button.classList.add('active');
+          renderProduct(currentVariants[index]);
+        });
+        wrap.appendChild(button);
+      });
+    }
+
+    function bundleDiscount(quantity) { return quantity >= 3 ? 10 : quantity === 2 ? 5 : 0; }
+
+    function updateBundlePrice() {
+      if (!selectedProduct) return;
+      const quantity = clampQuantity(document.getElementById('quantity').value);
+      const total = Number(selectedProduct.price) * quantity - bundleDiscount(quantity);
+      document.getElementById('productPrice').textContent = quantity === 1 ? `$${total.toFixed(2)}` : `$${total.toFixed(2)} bundle total`;
     }
 
     async function loadProduct() {
       const id = Number(new URLSearchParams(location.search).get('id')) || 42;
       let products = fallbackProducts;
       try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/inventory?id=eq.${id}&limit=1`, {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/inventory?order=id`, {
           headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
         });
         const data = await response.json();
         if (Array.isArray(data) && data.length) products = data;
       } catch (_) {}
       const product = products.find(item => Number(item.id) === id) || fallbackProducts.find(item => Number(item.id) === id) || fallbackProducts[0];
+      currentVariants = variantsFor(product, products);
       renderProduct(product);
+      renderDoseOptions();
     }
 
     function clampQuantity(value) {
@@ -201,22 +282,45 @@
     document.getElementById('minusButton').addEventListener('click', () => {
       const input = document.getElementById('quantity');
       input.value = clampQuantity(Number(input.value) - 1);
+      updateBundleSelection();
     });
     document.getElementById('plusButton').addEventListener('click', () => {
       const input = document.getElementById('quantity');
       input.value = clampQuantity(Number(input.value) + 1);
+      updateBundleSelection();
     });
     document.getElementById('quantity').addEventListener('change', event => {
       event.target.value = clampQuantity(event.target.value);
+      updateBundleSelection();
+    });
+    function updateBundleSelection() {
+      const quantity = Number(document.getElementById('quantity').value);
+      document.querySelectorAll('.bundle-button').forEach(button => {
+        const tier = Number(button.dataset.quantity);
+        button.classList.toggle('active', tier === (quantity >= 3 ? 3 : quantity));
+      });
+      updateBundlePrice();
+    }
+    document.querySelectorAll('.bundle-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('quantity').value = button.dataset.quantity;
+        updateBundleSelection();
+      });
     });
     document.getElementById('addButton').addEventListener('click', () => {
       if (!selectedProduct || Number(selectedProduct.stock) <= 0) return;
       const quantity = clampQuantity(document.getElementById('quantity').value);
+      const discount = bundleDiscount(quantity);
+      const effectiveUnitPrice = (Number(selectedProduct.price) * quantity - discount) / quantity;
       const cart = getCart();
       const cartId = `product-${selectedProduct.id}`;
       const existing = cart.find(item => item.cartId === cartId);
       if (existing) {
-        existing.quantity = Math.min(Number(selectedProduct.stock) || 99, Number(existing.quantity || 0) + quantity);
+        const combinedQuantity = Math.min(Number(selectedProduct.stock) || 99, Number(existing.quantity || 0) + quantity);
+        const combinedDiscount = bundleDiscount(combinedQuantity);
+        existing.quantity = combinedQuantity;
+        existing.price = (Number(selectedProduct.price) * combinedQuantity - combinedDiscount) / combinedQuantity;
+        existing.details = `${selectedProduct.name}${selectedProduct.dose ? ` ${selectedProduct.dose}` : ''}${combinedDiscount ? ` · Bundle savings $${combinedDiscount}` : ''}`;
       } else {
         cart.push({
           cartId,
@@ -224,10 +328,10 @@
           productId: selectedProduct.id,
           name: selectedProduct.name,
           dose: selectedProduct.dose || '',
-          price: Number(selectedProduct.price),
+          price: effectiveUnitPrice,
           stock: Number(selectedProduct.stock) || 99,
           quantity,
-          details: `${selectedProduct.name}${selectedProduct.dose ? ` ${selectedProduct.dose}` : ''}`
+          details: `${selectedProduct.name}${selectedProduct.dose ? ` ${selectedProduct.dose}` : ''}${discount ? ` · Bundle savings $${discount}` : ''}`
         });
       }
       localStorage.setItem(AZORIC_CART_KEY, JSON.stringify(cart));
