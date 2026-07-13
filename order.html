@@ -1636,6 +1636,7 @@
     aria-label="Search products"
     autocomplete="off"
     oninput="searchProducts(this.value)"
+    onkeydown="openSearchedProduct(event)"
   >
 
   <button
@@ -2159,6 +2160,51 @@ function searchProducts(value) {
   }
 
   buildTable();
+}
+
+function openSearchedProduct(event) {
+  if (event.key !== 'Enter') return;
+
+  event.preventDefault();
+
+  const input = event.currentTarget;
+  const searchTerm = input.value.trim().toLowerCase();
+
+  if (!searchTerm) return;
+
+  let matchingProduct = products.find(product =>
+    normalizeProductName(product) === searchTerm
+  );
+
+  if (!matchingProduct) {
+    matchingProduct = products.find(product =>
+      normalizeProductName(product).includes(searchTerm)
+    );
+  }
+
+  /*
+    If a customer enters a strength that is selected on the individual
+    product page, match the peptide name first. This supports searches
+    such as "GHK-Cu 100mg" even though 100mg is chosen on product.html.
+  */
+  if (!matchingProduct) {
+    const nameOnlyTerm = searchTerm
+      .replace(/\b\d+(?:\.\d+)?\s*(?:mg|ml|mcg)\b/g, '')
+      .trim();
+
+    matchingProduct = products.find(product =>
+      nameOnlyTerm && normalizeProductName(product).includes(nameOnlyTerm)
+    );
+  }
+
+  if (matchingProduct) {
+    window.location.href = `product.html?id=${matchingProduct.id}`;
+    return;
+  }
+
+  input.setCustomValidity('No matching product was found. Try another peptide name.');
+  input.reportValidity();
+  window.setTimeout(() => input.setCustomValidity(''), 1800);
 }
 
 function clearProductSearch() {
