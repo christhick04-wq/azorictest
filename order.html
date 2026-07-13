@@ -1887,6 +1887,31 @@
     </button>
   </div>
 </section>
+
+  <section class="product-search-section">
+  <label for="productSearch">Search Products</label>
+
+  <div class="product-search-box">
+    <input
+      type="search"
+      id="productSearch"
+      placeholder="Search by product name or dose..."
+      autocomplete="off"
+      oninput="searchProducts(this.value)"
+    >
+
+    <button
+      type="button"
+      onclick="clearProductSearch()"
+    >
+      Clear
+    </button>
+  </div>
+
+  <small>
+    Try searching for NAD+, GHK-Cu, BPC-157, or 10mg.
+  </small>
+</section>
   
     <!-- INDIVIDUAL PRODUCTS -->
   <section class="individual-products-section">
@@ -1992,6 +2017,7 @@ function openIndividualProducts() {
   let products = [];
   let quantities = [];
   let currentProductView = 'all';
+  let currentSearchTerm = '';
 
   const defaultProducts = [
     { id: 1,  name: "Tirzepatide",              dose: "10mg",  stock: 40, low_at: 10, price: 45 },
@@ -2119,11 +2145,40 @@ function productMatchesView(product, view) {
     ]
   };
 
-  if (view === 'all') return true;
+  const matchesSelectedView =
+  view === 'all' ||
+  nameIncludesAny(product, views[view] || []);
 
-  return nameIncludesAny(product, views[view] || []);
+const matchesSearch =
+  !currentSearchTerm ||
+  normalizeProductName(product).includes(currentSearchTerm);
+
+return matchesSelectedView && matchesSearch;
 }
 
+function searchProducts(value) {
+  currentSearchTerm = value.trim().toLowerCase();
+
+  const section = document.getElementById('productsCollapsible');
+
+  if (section) {
+    section.classList.add('open');
+  }
+
+  buildTable();
+}
+
+function clearProductSearch() {
+  const searchInput = document.getElementById('productSearch');
+
+  if (searchInput) {
+    searchInput.value = '';
+  }
+
+  currentSearchTerm = '';
+  buildTable();
+}
+  
 function getProductViewText(view) {
   const viewText = {
     all: {
