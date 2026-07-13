@@ -1604,6 +1604,51 @@
   }
 }
   
+/* Compact product directory */
+.compact-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 16px;
+}
+
+.compact-product-card {
+  min-width: 0;
+  padding: 18px;
+  background: rgba(255, 254, 249, .92);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(48, 66, 52, .08);
+}
+
+.compact-product-category {
+  margin: 0 0 8px;
+  color: #a4884f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.compact-product-card h3 {
+  margin: 0;
+  color: var(--accent-dark);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.compact-product-dose { min-height: 18px; margin: 8px 0 14px; color: var(--muted); font-size: 11px; }
+.compact-product-price { display: block; margin-bottom: 15px; color: var(--accent-dark); font-family: "Cormorant Garamond", Georgia, serif; font-size: 23px; font-weight: 600; }
+.compact-product-price small { margin-right: 5px; color: var(--muted); font-family: "DM Sans", Arial, sans-serif; font-size: 9px; font-weight: 500; text-transform: uppercase; }
+.compact-view-link { min-height: 39px; display: grid; place-items: center; color: #fff; background: var(--accent-dark); border-radius: 5px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
+.compact-out-of-stock { margin-top: 10px; color: #a15346; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.compact-empty { grid-column: 1 / -1; padding: 35px; color: var(--muted); background: rgba(255,254,249,.9); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+
+@media (max-width: 1050px) { .compact-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .compact-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 500px) { .compact-product-grid { grid-template-columns: 1fr; } }
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="azoric-theme.css">
@@ -1934,18 +1979,7 @@
   id="productsCollapsible"
 >
 
-      <table class="peptide-table" id="peptideTable">
-        <thead>
-        <tr>
-          <th>Compound</th>
-          <th>Status</th>
-          <th style="text-align:right">Price</th>
-          <th style="text-align:center">Qty</th>
-        </tr>
-      </thead>
-
-      <tbody id="productRows"></tbody>
-    </table>
+      <div class="compact-product-grid" id="productRows"></div>
 
   </div>
 
@@ -1955,8 +1989,8 @@
 
   <section class="products-cart-cta">
     <div>
-      <span>Your selections are saved</span>
-      <strong>Ready to review your products?</strong>
+      <span>Select dosage and quantity on each product page</span>
+      <strong>Already added something?</strong>
     </div>
     <a href="cart.html">View Cart (<span id="bottomCartCount">0</span>)</a>
   </section>
@@ -2317,64 +2351,48 @@ function closeGoalPanel() {
 }
   
   function buildTable() {
-    const tbody = document.getElementById('productRows');
-    tbody.innerHTML = '';
-    
-    products.forEach((p, i) => {
+    const grid = document.getElementById('productRows');
+    grid.innerHTML = '';
+    const seenNames = new Set();
+    let visibleCount = 0;
+
+    products.forEach((p) => {
       if (!productMatchesView(p, currentProductView)) return;
-      
-      if (quantities[i] === undefined) quantities[i] = 0;
-      
-      const outOfStock = Number(p.stock) <= 0;
-      const tr = document.createElement('tr');
-      
-      if (outOfStock) {
-        tr.classList.add('out-of-stock-row');
-       }
-      
-      tr.innerHTML = `
-        <td>
-          <div class="compound-name">${p.name}${p.dose ? ' <span style=\'color:var(--accent);font-size:12px;font-weight:400;\'>' + p.dose + '</span>' : ''}</div>
-        </td>
-        
-        <td>
-         ${
-          outOfStock
-            ? '<span class="out-of-stock-text">Out of Stock</span>'
-            : ''
-        }
-      </td>
-      
-        <td style="text-align:right; color:var(--accent-dark); font-size:13px;">$${Number(p.price).toFixed(2)}
-        </td>
-        
-        <td class="qty-cell">
-          ${
-           outOfStock
-             ? '<span class="out-of-stock-text">—</span>'
-             : `
-               <div class="qty-control">
-                 <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
-                 
-                 <input
-                   class="qty-display"
-                   type="number"
-                   min="0"
-                   max="${p.stock}"
-                   value="${quantities[i]}"
-                   id="qty_${i}"
-                   onchange="setQty(${i}, this.value)"
-                 >
-                 
-                 <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
-               </div>
-             `
-         }
-       </td>
+      const key = String(p.name || '').trim().toLowerCase();
+      if (seenNames.has(key)) return;
+      seenNames.add(key);
+
+      const variants = products.filter(item => String(item.name || '').trim().toLowerCase() === key);
+      const doses = [...new Set(variants.map(item => item.dose).filter(Boolean))];
+      const startingPrice = Math.min(...variants.map(item => Number(item.price)));
+      const hasMultipleStrengths = doses.length > 1 || key.includes('ghk');
+      const outOfStock = variants.every(item => Number(item.stock) <= 0);
+      visibleCount += 1;
+
+      let category = 'Cellular Peptide';
+      if (key.includes('bac water') || key.includes('bacteriostatic')) category = 'Research Supplies';
+      else if (key.includes('tirzepatide') || key.includes('retatrutide') || key.includes('mots')) category = 'Metabolic Research';
+      else if (key.includes('ghk')) category = 'Dermal Research';
+      else if (key.includes('cjc') || key.includes('ipamorelin') || key.includes('tesamorelin')) category = 'Secretagogue Research';
+      else if (key.includes('semax') || key.includes('selank')) category = 'Cognitive Research';
+      else if (key.includes('nad') || key.includes('ss-31')) category = 'Cellular Research';
+
+      const card = document.createElement('article');
+      card.className = 'compact-product-card';
+      card.innerHTML = `
+        <p class="compact-product-category">${category}</p>
+        <h3>${p.name}</h3>
+        <p class="compact-product-dose">${hasMultipleStrengths ? 'Multiple strengths available' : (p.dose || 'Research supply')}</p>
+        <span class="compact-product-price">${hasMultipleStrengths ? '<small>From</small>' : ''}$${startingPrice.toFixed(2)}</span>
+        <a class="compact-view-link" href="product.html?id=${p.id}">View Product</a>
+        ${outOfStock ? '<p class="compact-out-of-stock">Currently out of stock</p>' : ''}
       `;
-      
-      tbody.appendChild(tr);
+      grid.appendChild(card);
     });
+
+    if (!visibleCount) {
+      grid.innerHTML = '<div class="compact-empty">No products match your search. Try another peptide name.</div>';
+    }
   }
 
   function changeQty(i, delta) {
