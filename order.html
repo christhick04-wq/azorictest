@@ -1619,6 +1619,24 @@
       </span>
     </a>
 
+<div class="header-product-search">
+  <input
+    type="search"
+    id="productSearch"
+    placeholder="Search products..."
+    aria-label="Search products"
+    autocomplete="off"
+    oninput="searchProducts(this.value)"
+  >
+
+  <button
+    type="button"
+    onclick="clearProductSearch()"
+  >
+    Clear
+  </button>
+</div>
+    
     <nav class="storefront-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a class="active" href="order.html">Products</a>
@@ -1886,31 +1904,6 @@
       <small>Browse performance-focused products</small>
     </button>
   </div>
-</section>
-
-  <section class="product-search-section">
-  <label for="productSearch">Search Products</label>
-
-  <div class="product-search-box">
-    <input
-      type="search"
-      id="productSearch"
-      placeholder="Search by product name or dose..."
-      autocomplete="off"
-      oninput="searchProducts(this.value)"
-    >
-
-    <button
-      type="button"
-      onclick="clearProductSearch()"
-    >
-      Clear
-    </button>
-  </div>
-
-  <small>
-    Try searching for NAD+, GHK-Cu, BPC-157, or 10mg.
-  </small>
 </section>
   
     <!-- INDIVIDUAL PRODUCTS -->
